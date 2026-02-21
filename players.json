@@ -1,0 +1,30 @@
+{
+  "overall": [
+    { "name": "ExamplePlayer1", "continent": "NA", "tier": "HT1" },
+    { "name": "ExamplePlayer2", "continent": "EU", "tier": "LT1" },
+    { "name": "ExamplePlayer3", "continent": "AS", "tier": "HT2" },
+    { "name": "ExamplePlayer4", "continent": "SA", "tier": "LT2" },
+    { "name": "ExamplePlayer5", "continent": "OC", "tier": "HT3" },
+    { "name": "ExamplePlayer6", "continent": "EU", "tier": "LT3" },
+    { "name": "ExamplePlayer7", "continent": "NA", "tier": "HT4" },
+    { "name": "ExamplePlayer8", "continent": "AF", "tier": "LT5" }
+  ],
+  "emerald": [
+    { "name": "EmeraldKing",  "continent": "NA", "tier": "HT1" },
+    { "name": "GreenGod",     "continent": "EU", "tier": "LT1" },
+    { "name": "JadeSword",    "continent": "AS", "tier": "HT2" },
+    { "name": "EmeraldRush",  "continent": "SA", "tier": "LT3" }
+  ],
+  "dragonhide": [
+    { "name": "DragonSlayer", "continent": "EU", "tier": "HT1" },
+    { "name": "ScaleBlade",   "continent": "NA", "tier": "HT2" },
+    { "name": "FireBreath",   "continent": "SA", "tier": "LT2" },
+    { "name": "AshWarden",    "continent": "AS", "tier": "HT4" }
+  ],
+  "dragonhide_kb": [
+    { "name": "KBDragon",    "continent": "AS", "tier": "HT1" },
+    { "name": "KnockGod",    "continent": "EU", "tier": "LT1" },
+    { "name": "PushMaster",  "continent": "NA", "tier": "HT2" },
+    { "name": "LaunchKing",  "continent": "OC", "tier": "LT3" }
+  ]
+}

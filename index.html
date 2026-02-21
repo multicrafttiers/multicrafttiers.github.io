@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MultiCraft Tiers — Build and Mine</title>
+  <link rel="stylesheet" href="css.css" />
+</head>
+<body>
+
+  <!-- Shooting Stars -->
+  <div class="shooting-stars">
+    <div class="star-streak"></div>
+    <div class="star-streak"></div>
+    <div class="star-streak"></div>
+    <div class="star-streak"></div>
+    <div class="star-streak"></div>
+  </div>
+
+  <!-- Ambient Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- ═══ Header ═══ -->
+  <header>
+    <div class="site-logo">MultiCraft Tiers</div>
+    <div class="site-subtitle">Build and Mine · Powered by Luanti</div>
+
+    <a href="https://discord.gg/S24kE72Y5u" target="_blank" rel="noopener noreferrer" class="discord-btn">
+      <!-- Discord SVG icon -->
+      <svg class="discord-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.079.11 18.1.13 18.113a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+      </svg>
+      Join Discord
+    </a>
+  </header>
+
+  <!-- ═══ Main Content ═══ -->
+  <main>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" role="tablist">
+      <button class="tab-btn active" data-tab="overall"       role="tab" aria-selected="true">Overall</button>
+      <button class="tab-btn"        data-tab="emerald"       role="tab">Emerald</button>
+      <button class="tab-btn"        data-tab="dragonhide"    role="tab">Dragonhide</button>
+      <button class="tab-btn"        data-tab="dragonhide_kb" role="tab">Dragonhide KB</button>
+    </nav>
+
+    <div class="glow-divider"></div>
+
+    <!-- ─── Overall Tab ─── -->
+    <section class="tab-panel active" id="tab-overall" role="tabpanel">
+      <div class="kit-header">
+        <div class="kit-title overall-color">Overall Rankings</div>
+        <div class="kit-desc">Global performance across all kits</div>
+      </div>
+      <div id="tiers-overall"></div>
+    </section>
+
+    <!-- ─── Emerald Tab ─── -->
+    <section class="tab-panel" id="tab-emerald" role="tabpanel">
+      <div class="kit-header">
+        <div class="kit-title emerald-color">Emerald Kit</div>
+        <div class="kit-desc">Standard competitive kit rankings</div>
+      </div>
+      <div id="tiers-emerald"></div>
+    </section>
+
+    <!-- ─── Dragonhide Tab ─── -->
+    <section class="tab-panel" id="tab-dragonhide" role="tabpanel">
+      <div class="kit-header">
+        <div class="kit-title dragonhide-color">Dragonhide Kit</div>
+        <div class="kit-desc">High-defense armor kit rankings</div>
+      </div>
+      <div id="tiers-dragonhide"></div>
+    </section>
+
+    <!-- ─── Dragonhide KB Tab ─── -->
+    <section class="tab-panel" id="tab-dragonhide_kb" role="tabpanel">
+      <div class="kit-header">
+        <div class="kit-title dragonhide-kb-color">Dragonhide KB Kit</div>
+        <div class="kit-desc">Knockback-focused dragonhide rankings</div>
+      </div>
+      <div id="tiers-dragonhide_kb"></div>
+    </section>
+  </main>
+
+  <footer>
+    MultiCraft Tiers &copy; 2025 &nbsp;·&nbsp; Not affiliated with MultiCraft or Luanti officially
+  </footer>
+
+  <script>
+    // ─── Tab Switching ───────────────────────────────────────
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        tabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        tabPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        document.getElementById('tab-' + target).classList.add('active');
+      });
+    });
+
+    // ─── Tier Definitions ────────────────────────────────────
+    // Order: highest to lowest
+    const TIERS = ['HT1','LT1','HT2','LT2','HT3','LT3','HT4','LT4','HT5','LT5'];
+
+    const TIER_META = {
+      HT1: { label: 'High Tier 1', sub: 'The Absolute Best',  cls: 'tier-ht1', badge: 'HT1' },
+      LT1: { label: 'Low Tier 1',  sub: 'Near Pinnacle',      cls: 'tier-lt1', badge: 'LT1' },
+      HT2: { label: 'High Tier 2', sub: 'Elite Competitors',  cls: 'tier-ht2', badge: 'HT2' },
+      LT2: { label: 'Low Tier 2',  sub: 'Strong Players',     cls: 'tier-lt2', badge: 'LT2' },
+      HT3: { label: 'High Tier 3', sub: 'Above Average',      cls: 'tier-ht3', badge: 'HT3' },
+      LT3: { label: 'Low Tier 3',  sub: 'Solid Performers',   cls: 'tier-lt3', badge: 'LT3' },
+      HT4: { label: 'High Tier 4', sub: 'Average',            cls: 'tier-ht4', badge: 'HT4' },
+      LT4: { label: 'Low Tier 4',  sub: 'Below Average',      cls: 'tier-lt4', badge: 'LT4' },
+      HT5: { label: 'High Tier 5', sub: 'Developing',         cls: 'tier-ht5', badge: 'HT5' },
+      LT5: { label: 'Low Tier 5',  sub: 'Entry Level',        cls: 'tier-lt5', badge: 'LT5' },
+    };
+
+    // ─── Render Tiers ─────────────────────────────────────────
+    function renderTiers(containerId, players) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+
+      // Group players by tier (case-insensitive key match)
+      const grouped = {};
+      TIERS.forEach(t => grouped[t] = []);
+      players.forEach(p => {
+        const key = p.tier.toUpperCase().replace(/\s/g, '');
+        if (grouped[key] !== undefined) grouped[key].push(p);
+      });
+
+      TIERS.forEach(tier => {
+        const meta = TIER_META[tier];
+        const list = grouped[tier];
+
+        const section = document.createElement('div');
+        section.className = `tier-section ${meta.cls}`;
+
+        // Label bar
+        const label = document.createElement('div');
+        label.className = 'tier-label';
+        label.innerHTML = `
+          <div class="tier-badge">${meta.badge}</div>
+          <div class="tier-name-block">
+            <div class="tier-name-label">${meta.label}</div>
+            <div class="tier-name-sub">${meta.sub}</div>
+          </div>
+          <div class="tier-divider"></div>
+          <div class="tier-count">${list.length} player${list.length !== 1 ? 's' : ''}</div>
+        `;
+        section.appendChild(label);
+
+        // Player grid
+        const grid = document.createElement('div');
+        grid.className = 'player-grid';
+
+        if (list.length === 0) {
+          grid.innerHTML = '<div class="empty-tier">No players in this tier</div>';
+        } else {
+          list.forEach((player, i) => {
+            const card = document.createElement('div');
+            card.className = 'player-card';
+            card.style.animationDelay = `${i * 0.04}s`;
+            card.innerHTML = `
+              <span class="player-name">${escapeHtml(player.name)}</span>
+              <span class="continent-tag" data-continent="${escapeHtml(player.continent)}">${escapeHtml(player.continent)}</span>
+            `;
+            grid.appendChild(card);
+          });
+        }
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // ─── Load Data ────────────────────────────────────────────
+    fetch('players.json')
+      .then(r => {
+        if (!r.ok) throw new Error('Failed to load players.json');
+        return r.json();
+      })
+      .then(data => {
+        renderTiers('tiers-overall',      data.overall      || []);
+        renderTiers('tiers-emerald',      data.emerald      || []);
+        renderTiers('tiers-dragonhide',   data.dragonhide   || []);
+        renderTiers('tiers-dragonhide_kb', data.dragonhide_kb || []);
+      })
+      .catch(err => {
+        console.error('Error loading player data:', err);
+        document.querySelectorAll('[id^="tiers-"]').forEach(el => {
+          el.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,100,100,0.7);letter-spacing:0.2em;font-size:0.85rem;text-transform:uppercase;">Could not load player data — make sure players.json is in the same folder.</div>';
+        });
+      });
+  </script>
+</body>
+</html>
