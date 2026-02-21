@@ -1,10 +1,5 @@
-/* ═══════════════════════════════════════════════════
-   MultiCraft Tiers — Galaxy Liquid Glass Theme
-   ═══════════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
-/* ─── CSS Variables ─── */
 :root {
   --void: #02010a;
   --deep-space: #070414;
@@ -33,7 +28,6 @@
   --font-body: 'Rajdhani', sans-serif;
 }
 
-/* ─── Reset & Base ─── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -53,7 +47,6 @@ body {
   cursor: default;
 }
 
-/* ─── Animated Galaxy Background ─── */
 body::before {
   content: '';
   position: fixed;
@@ -104,7 +97,6 @@ body::after {
   66% { opacity: 0.9; }
 }
 
-/* ─── Shooting Stars ─── */
 .shooting-stars {
   position: fixed;
   inset: 0;
@@ -137,7 +129,6 @@ body::after {
   100% { transform: translateX(110vw) translateY(70vh) rotate(30deg); opacity: 0; }
 }
 
-/* ─── Header ─── */
 header {
   position: relative;
   text-align: center;
@@ -177,7 +168,6 @@ header {
   margin-bottom: 28px;
 }
 
-/* ─── Discord Button ─── */
 .discord-btn {
   display: inline-flex;
   align-items: center;
@@ -227,14 +217,12 @@ header {
   fill: currentColor;
 }
 
-/* ─── Main Container ─── */
 main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px 80px;
 }
 
-/* ─── Kit Tabs ─── */
 .tab-nav {
   display: flex;
   gap: 8px;
@@ -286,13 +274,11 @@ main {
   box-shadow: 0 0 25px rgba(123, 47, 255, 0.35), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
-/* Tab accent colors */
 .tab-btn[data-tab="overall"].active   { background: linear-gradient(135deg, rgba(123,47,255,0.35), rgba(0,212,255,0.2)); border-color: rgba(123,47,255,0.65); box-shadow: 0 0 25px rgba(123,47,255,0.4); }
 .tab-btn[data-tab="emerald"].active   { background: linear-gradient(135deg, rgba(0,200,80,0.3), rgba(0,255,120,0.15)); border-color: rgba(0,200,80,0.65); box-shadow: 0 0 25px rgba(0,200,80,0.4); }
 .tab-btn[data-tab="dragonhide"].active { background: linear-gradient(135deg, rgba(255,80,30,0.3), rgba(255,180,0,0.15)); border-color: rgba(255,100,30,0.65); box-shadow: 0 0 25px rgba(255,80,30,0.4); }
 .tab-btn[data-tab="dragonhide_kb"].active { background: linear-gradient(135deg, rgba(255,45,120,0.3), rgba(200,30,255,0.2)); border-color: rgba(255,45,120,0.65); box-shadow: 0 0 25px rgba(255,45,120,0.4); }
 
-/* ─── Tab Panels ─── */
 .tab-panel {
   display: none;
   animation: panelIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
@@ -305,7 +291,6 @@ main {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── Kit Panel Header ─── */
 .kit-header {
   text-align: center;
   margin-bottom: 40px;
@@ -332,7 +317,6 @@ main {
   text-transform: uppercase;
 }
 
-/* ─── Tier Sections ─── */
 .tier-section {
   margin-bottom: 28px;
   border-radius: 20px;
@@ -437,7 +421,6 @@ main {
   font-weight: 500;
 }
 
-/* ─── Player Grid ─── */
 .player-grid {
   display: flex;
   flex-wrap: wrap;
@@ -499,7 +482,6 @@ main {
   color: rgba(232,244,255,0.5);
 }
 
-/* Continent color accents */
 .continent-tag[data-continent="NA"] { color: #7dd3fc; border-color: rgba(125,211,252,0.25); }
 .continent-tag[data-continent="EU"] { color: #86efac; border-color: rgba(134,239,172,0.25); }
 .continent-tag[data-continent="AS"] { color: #fda4af; border-color: rgba(253,164,175,0.25); }
@@ -507,7 +489,6 @@ main {
 .continent-tag[data-continent="OC"] { color: #c4b5fd; border-color: rgba(196,181,253,0.25); }
 .continent-tag[data-continent="AF"] { color: #fb923c; border-color: rgba(251,146,60,0.25); }
 
-/* Empty tier */
 .empty-tier {
   width: 100%;
   text-align: center;
@@ -518,7 +499,6 @@ main {
   text-transform: uppercase;
 }
 
-/* ─── Tier section border accents ─── */
 .tier-ht1 { border-color: rgba(255,76,242,0.35); }
 .tier-lt1 { border-color: rgba(199,50,255,0.28); }
 .tier-ht2 { border-color: rgba(0,212,255,0.28); }
@@ -530,7 +510,6 @@ main {
 .tier-ht5 { border-color: rgba(255,122,53,0.18); }
 .tier-lt5 { border-color: rgba(184,74,24,0.15); }
 
-/* ─── Liquid Glass Orbs (decorative) ─── */
 .orb {
   position: fixed;
   border-radius: 50%;
@@ -566,7 +545,6 @@ main {
   to   { transform: translate(30px, -30px) scale(1.1); }
 }
 
-/* ─── Glowing Divider ─── */
 .glow-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(123,47,255,0.6), rgba(0,212,255,0.6), rgba(255,45,120,0.4), transparent);
@@ -580,7 +558,6 @@ main {
   50%       { opacity: 1; }
 }
 
-/* ─── Footer ─── */
 footer {
   text-align: center;
   padding: 30px 20px;
@@ -591,13 +568,11 @@ footer {
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-/* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(123,47,255,0.5); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.5); }
 
-/* ─── Responsive ─── */
 @media (max-width: 768px) {
   header { padding: 40px 16px 28px; }
   .tab-nav { gap: 6px; }
