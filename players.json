@@ -1,6 +1,6 @@
 {
   "overall": [
-    { "name": "These are placeholder rankings",  "continent": "NA", "tier": "HT1" },
+    { "name": "Every rank you see on this page are placeholders.",  "continent": "NA", "tier": "HT1" },
     { "name": "Verxsion", "continent": "NA", "tier": "HT1" },
     { "name": "Elder", "continent": "NA", "tier": "HT1" },
     { "name": "Game1K", "continent": "NA", "tier": "HT1" },
@@ -19,6 +19,20 @@
   "dragonhide_kb": [
     { "name": "Rankings Starting Soon",  "continent": "NA", "tier": "HT1" }
   ]
+  "classic_mace": [
+    { "name": "Rankings Starting Soon",  "continent": "NA", "tier": "HT1" }
+  ]
+  "modern_mace": [
+    { "name": "Rankings Starting Soon",  "continent": "NA", "tier": "HT1" }
+  ]
+  "wand": [
+    { "name": "Rankings Starting Soon",  "continent": "NA", "tier": "HT1" }
+  ]
+  "spear": [
+    { "name": "Rankings Starting Soon",  "continent": "NA", "tier": "HT1" }
+  ]
+  "manhunt": [
+    { "name": "Rankings Starting Soon",  "continent": "NA", "tier": "HT1" }
+  ]
 }
-
 
