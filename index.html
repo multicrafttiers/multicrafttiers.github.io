@@ -14,23 +14,17 @@
 <div class="shooting-stars">
   <div class="star-streak"></div>
   <div class="star-streak"></div>
-  
   <div class="star-streak"></div>
-  
   <div class="star-streak"></div>
   <div class="star-streak"></div>
 </div>
 
-<div class="orb orb-1"></div>
-  
-<div class="orb orb-2"></div>
-  
-<div class="orb orb-3"></div>
-
+<div class="bg-blob bg-blob--purple"></div>
+<div class="bg-blob bg-blob--cyan"></div>
 
 <header>
   <div class="site-logo">MultiCraft Tiers</div>
-  <div class="site-subtitle">MultiCraft Build and Mine</div>
+  <div class="server-tagline">MultiCraft Build and Mine</div>
   <a href="https://discord.gg/S24kE72Y5u" target="_blank" rel="noopener noreferrer" class="discord-btn">
     <svg class="discord-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.079.11 18.1.13 18.113a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.030zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
@@ -40,25 +34,22 @@
 </header>
 
 <main>
-  <nav class="tab-nav" role="tablist">
-    <button class="tab-btn active" data-tab="overall" role="tab" aria-selected="true">Overall</button>
-    <button class="tab-btn" data-tab="emerald" role="tab">Emerald</button>
-    <button class="tab-btn" data-tab="dragonhide" role="tab">Dragonhide</button>
-    <button class="tab-btn" data-tab="dragonhide_kb" role="tab">Dragonhide KB</button>
-    <button class="tab-btn" data-tab="classic_mace" role="tab">Classic Mace</button>
-    <button class="tab-btn" data-tab="modern_mace" role="tab">Modern Mace</button>
-    <button class="tab-btn" data-tab="wand" role="tab">Wand</button>
-    <button class="tab-btn" data-tab="spear" role="tab">Spear</button>
-    <button class="tab-btn" data-tab="manhunt" role="tab">Manhunt</button>
+  <nav class="kit-nav" role="tablist">
+    <button class="kit-tab active" data-tab="overall" role="tab" aria-selected="true">Overall</button>
+    <button class="kit-tab" data-tab="emerald" role="tab" aria-selected="false">Emerald</button>
+    <button class="kit-tab" data-tab="dragonhide" role="tab" aria-selected="false">Dragonhide</button>
+    <button class="kit-tab" data-tab="dragonhide_kb" role="tab" aria-selected="false">Dragonhide KB</button>
+    <button class="kit-tab" data-tab="classic_mace" role="tab" aria-selected="false">Classic Mace</button>
+    <button class="kit-tab" data-tab="modern_mace" role="tab" aria-selected="false">Modern Mace</button>
+    <button class="kit-tab" data-tab="wand" role="tab" aria-selected="false">Wand</button>
+    <button class="kit-tab" data-tab="spear" role="tab" aria-selected="false">Spear</button>
+    <button class="kit-tab" data-tab="manhunt" role="tab" aria-selected="false">Manhunt</button>
   </nav>
 
-  <div class="glow-divider"></div>
+  <div class="section-rule"></div>
 
-  <!-- honestly idk what happened with the css here lmao -->
   <div class="search-bar-wrap">
-    
     <input type="text" id="playerSearch" placeholder="Search player..." autocomplete="off" spellcheck="false" />
-    
     <select id="continentFilter">
       <option value="">All regions</option>
       <option value="NA">NA</option>
@@ -70,78 +61,74 @@
     </select>
   </div>
 
-
-  <!-- all the sections or tabs or wtv its basically very obvious -->
-
-  <section class="tab-panel active" id="tab-overall" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title overall-color">Overall Rankings</div>
-      <div class="kit-desc">Total Performance</div>
+  <section class="kit-panel active" id="tab-overall" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name overall-color">Overall Rankings</div>
+      <div class="kit-flavor">Total Performance</div>
     </div>
     <div id="tiers-overall"></div>
   </section>
-  
 
-  <section class="tab-panel" id="tab-emerald" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title emerald-color">Emerald Kit</div>
-      <div class="kit-desc">Emerald Sword PvP</div>
+  <section class="kit-panel" id="tab-emerald" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name emerald-color">Emerald Kit</div>
+      <div class="kit-flavor">Emerald Sword PvP</div>
     </div>
     <div id="tiers-emerald"></div>
   </section>
 
-  <section class="tab-panel" id="tab-dragonhide" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title dragonhide-color">Dragonhide Kit</div>
-      <div class="kit-desc">Dragonhide PvP</div>
+  <section class="kit-panel" id="tab-dragonhide" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name dragonhide-color">Dragonhide Kit</div>
+      <div class="kit-flavor">Dragonhide PvP</div>
     </div>
     <div id="tiers-dragonhide"></div>
   </section>
 
-  <section class="tab-panel" id="tab-dragonhide_kb" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title dragonhide-kb-color">Dragonhide KB Kit</div>
-      <div class="kit-desc">Dragonhide KB PvP</div>
+  <section class="kit-panel" id="tab-dragonhide_kb" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name dragonhide-kb-color">Dragonhide KB Kit</div>
+      <div class="kit-flavor">Dragonhide KB PvP</div>
     </div>
     <div id="tiers-dragonhide_kb"></div>
   </section>
 
-  <section class="tab-panel" id="tab-classic_mace" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title classic-mace-color">Classic Mace Kit</div>
-      <div class="kit-desc">Classic Mace PvP</div>
+  <section class="kit-panel" id="tab-classic_mace" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name classic-mace-color">Classic Mace Kit</div>
+      <div class="kit-flavor">Classic Mace PvP</div>
     </div>
     <div id="tiers-classic_mace"></div>
   </section>
 
-  <section class="tab-panel" id="tab-modern_mace" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title modern-mace-color">Modern Mace Kit</div>
-      <div class="kit-desc">Modern Mace PvP</div>
+  <section class="kit-panel" id="tab-modern_mace" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name modern-mace-color">Modern Mace Kit</div>
+      <div class="kit-flavor">Modern Mace PvP</div>
     </div>
     <div id="tiers-modern_mace"></div>
   </section>
 
-  <section class="tab-panel" id="tab-wand" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title wand-color">Wand Kit</div>
-      <div class="kit-desc">Wand PvP</div>
+  <section class="kit-panel" id="tab-wand" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name wand-color">Wand Kit</div>
+      <div class="kit-flavor">Wand PvP</div>
     </div>
     <div id="tiers-wand"></div>
   </section>
 
-  <section class="tab-panel" id="tab-spear" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title spear-color">Spear Kit</div>
-      <div class="kit-desc">Spear PvP</div>
+  <section class="kit-panel" id="tab-spear" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name spear-color">Spear Kit</div>
+      <div class="kit-flavor">Spear PvP</div>
     </div>
     <div id="tiers-spear"></div>
   </section>
 
-  <section class="tab-panel" id="tab-manhunt" role="tabpanel">
-    <div class="kit-header">
-      <div class="kit-title manhunt-color">Manhunt Kit</div>
-      <div class="kit-desc">Manhunt PvP</div>
+  <section class="kit-panel" id="tab-manhunt" role="tabpanel">
+    <div class="kit-heading">
+      <div class="kit-name manhunt-color">Manhunt Kit</div>
+      <div class="kit-flavor">Manhunt PvP</div>
     </div>
     <div id="tiers-manhunt"></div>
   </section>
@@ -150,14 +137,14 @@
 <footer>MultiCraft Tiers made by Covasius</footer>
 
 <script>
-var btns = document.querySelectorAll('.tab-btn')
-var panels = document.querySelectorAll('.tab-panel')
+var btns = document.querySelectorAll('.kit-tab')
+var panels = document.querySelectorAll('.kit-panel')
 
 for (var i = 0; i < btns.length; i++) {
   btns[i].onclick = function() {
     for (var j = 0; j < btns.length; j++) {
-        btns[j].classList.remove('active')
-        btns[j].setAttribute('aria-selected', 'false')
+      btns[j].classList.remove('active')
+      btns[j].setAttribute('aria-selected', 'false')
     }
     for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active')
     this.classList.add('active')
@@ -166,7 +153,6 @@ for (var i = 0; i < btns.length; i++) {
   }
 }
 
-// all the loaded data gets saved here so search can re-render
 var loadedData = {}
 
 var searchEl = document.getElementById('playerSearch')
@@ -187,8 +173,6 @@ function rerender() {
     var filtered = []
     for (var j = 0; j < players.length; j++) {
       var p = players[j]
-      // some old entries in the json have continent as "Unknown" or missing entirely,
-      // jax asked me to just treat those as NA for now
       var pc = p.continent || 'NA'
       if (pc == 'Unknown') pc = 'NA'
 
@@ -204,22 +188,26 @@ function rerender() {
 function makeTierBlock(tierKey, label, sub, cssClass, players) {
   var inTier = []
   for (var i = 0; i < players.length; i++) {
-    // strip whitespace + uppercase so 'ht1' and 'HT1 ' both work
     var t = players[i].tier.trim().toUpperCase().replace(' ', '')
     if (t == tierKey) inTier.push(players[i])
   }
 
   var n = inTier.length
-  var html = '<div class="tier-section ' + cssClass + '">'
-  html += '<div class="tier-label">'
-  html += '<div class="tier-badge">' + tierKey + '</div>'
-  html += '<div class="tier-name-block"><div class="tier-name-label">' + label + '</div><div class="tier-name-sub">' + sub + '</div></div>'
-  html += '<div class="tier-divider"></div>'
-  html += '<div class="tier-count">' + n + (n == 1 ? ' player' : ' players') + '</div>'
-  html += '</div><div class="player-grid">'
+  // cssClass is e.g. 'ht1', 'lt2' — matches the .tier-row.ht1 selectors in CSS
+  var html = '<div class="tier-row ' + cssClass + '">'
+  html += '<div class="tier-header">'
+  html += '<div class="tier-icon">' + tierKey + '</div>'
+  html += '<div class="tier-labels">'
+  html += '<div class="tier-rank-name">' + label + '</div>'
+  html += '<div class="tier-rank-sub">' + sub + '</div>'
+  html += '</div>'
+  html += '<div class="tier-sep"></div>'
+  html += '<div class="tier-playercount">' + n + (n == 1 ? ' player' : ' players') + '</div>'
+  html += '</div>'
+  html += '<div class="player-list">'
 
   if (n == 0) {
-      html += '<div class="empty-tier">No players in this tier</div>'
+    html += '<div class="no-players">No players in this tier</div>'
   } else {
     for (var i = 0; i < inTier.length; i++) {
       var p = inTier[i]
@@ -231,9 +219,9 @@ function makeTierBlock(tierKey, label, sub, cssClass, players) {
       tmpEl.appendChild(document.createTextNode(p.continent || 'NA'))
       var safeContinent = tmpEl.innerHTML
 
-      html += '<div class="player-card" style="animation-delay:' + (i * 0.04).toFixed(2) + 's">'
-      html += '<span class="player-name">' + safeName + '</span>'
-      html += '<span class="continent-tag" data-continent="' + safeContinent + '">' + safeContinent + '</span>'
+      html += '<div class="player-entry" style="animation-delay:' + (i * 0.04).toFixed(2) + 's">'
+      html += '<span class="player-ign">' + safeName + '</span>'
+      html += '<span class="region-tag" data-continent="' + safeContinent + '">' + safeContinent + '</span>'
       html += '</div>'
     }
   }
@@ -246,16 +234,16 @@ function fillKit(elId, players) {
   if (!el) return
 
   var out = ''
-  out += makeTierBlock('HT1', 'High Tier 1', 'The Absolute Best', 'tier-ht1', players)
-  out += makeTierBlock('LT1', 'Low Tier 1', 'Near Pinnacle', 'tier-lt1', players)
-  out += makeTierBlock('HT2', 'High Tier 2', 'Elite Competitors', 'tier-ht2', players)
-  out += makeTierBlock('LT2', 'Low Tier 2', 'Strong Players', 'tier-lt2', players)
-  out += makeTierBlock('HT3', 'High Tier 3', 'Above Average', 'tier-ht3', players)
-  out += makeTierBlock('LT3', 'Low Tier 3', 'Solid Performers', 'tier-lt3', players)
-  out += makeTierBlock('HT4', 'High Tier 4', 'Average', 'tier-ht4', players)
-  out += makeTierBlock('LT4', 'Low Tier 4', 'Below Average', 'tier-lt4', players)
-  out += makeTierBlock('HT5', 'High Tier 5', 'Developing', 'tier-ht5', players)
-  out += makeTierBlock('LT5', 'Low Tier 5', 'Entry Level', 'tier-lt5', players)
+  out += makeTierBlock('HT1', 'High Tier 1', 'The Absolute Best',   'ht1', players)
+  out += makeTierBlock('LT1', 'Low Tier 1',  'Near Pinnacle',       'lt1', players)
+  out += makeTierBlock('HT2', 'High Tier 2', 'Elite Competitors',   'ht2', players)
+  out += makeTierBlock('LT2', 'Low Tier 2',  'Strong Players',      'lt2', players)
+  out += makeTierBlock('HT3', 'High Tier 3', 'Above Average',       'ht3', players)
+  out += makeTierBlock('LT3', 'Low Tier 3',  'Solid Performers',    'lt3', players)
+  out += makeTierBlock('HT4', 'High Tier 4', 'Average',             'ht4', players)
+  out += makeTierBlock('LT4', 'Low Tier 4',  'Below Average',       'lt4', players)
+  out += makeTierBlock('HT5', 'High Tier 5', 'Developing',          'ht5', players)
+  out += makeTierBlock('LT5', 'Low Tier 5',  'Entry Level',         'lt5', players)
 
   el.innerHTML = out
 }
@@ -264,21 +252,20 @@ fetch('players.json').then(function(r) {
   if (!r.ok) throw 'status ' + r.status
   return r.json()
 }).then(function(data) {
-    // save everything so search/filter can use it later
-    var kits = ['overall','emerald','dragonhide','dragonhide_kb','classic_mace','modern_mace','wand','spear','manhunt']
-    for (var i = 0; i < kits.length; i++) {
-      loadedData[kits[i]] = data[kits[i]] || []
-    }
+  var kits = ['overall','emerald','dragonhide','dragonhide_kb','classic_mace','modern_mace','wand','spear','manhunt']
+  for (var i = 0; i < kits.length; i++) {
+    loadedData[kits[i]] = data[kits[i]] || []
+  }
 
-    fillKit('tiers-overall', loadedData.overall)
-    fillKit('tiers-emerald', loadedData.emerald)
-    fillKit('tiers-dragonhide', loadedData.dragonhide)
-    fillKit('tiers-dragonhide_kb', loadedData.dragonhide_kb)
-    fillKit('tiers-classic_mace', loadedData.classic_mace)
-    fillKit('tiers-modern_mace', loadedData.modern_mace)
-    fillKit('tiers-wand', loadedData.wand)
-    fillKit('tiers-spear', loadedData.spear)
-    fillKit('tiers-manhunt', loadedData.manhunt)
+  fillKit('tiers-overall',      loadedData.overall)
+  fillKit('tiers-emerald',      loadedData.emerald)
+  fillKit('tiers-dragonhide',   loadedData.dragonhide)
+  fillKit('tiers-dragonhide_kb',loadedData.dragonhide_kb)
+  fillKit('tiers-classic_mace', loadedData.classic_mace)
+  fillKit('tiers-modern_mace',  loadedData.modern_mace)
+  fillKit('tiers-wand',         loadedData.wand)
+  fillKit('tiers-spear',        loadedData.spear)
+  fillKit('tiers-manhunt',      loadedData.manhunt)
 }).catch(function(err) {
   console.log('players.json didnt load:', err)
   var errHtml = '<div style="text-align:center;padding:40px;color:rgba(255,100,100,0.7);letter-spacing:0.2em;font-size:0.85rem;text-transform:uppercase;">Could not load player data — make sure players.json is in the same folder.</div>'
