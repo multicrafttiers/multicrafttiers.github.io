@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d1f3c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="swordGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a8ff78;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffcc;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#00aaff;stop-opacity:0.2" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="6" ry="6" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid pattern (Minecraft feel) -->
+  <line x1="16" y1="2" x2="16" y2="30" stroke="#ffffff" stroke-width="0.2" stroke-opacity="0.08"/>
+  <line x1="2" y1="16" x2="30" y2="16" stroke="#ffffff" stroke-width="0.2" stroke-opacity="0.08"/>
+
+  <!-- Glow orb behind sword -->
+  <circle cx="16" cy="16" r="9" fill="url(#glowGrad)" opacity="0.5"/>
+
+  <!-- Pixelated Minecraft-style sword (diamond/emerald color), tilted 45deg -->
+  <!-- Blade - pixel blocks drawn as small rects rotated -->
+  <g transform="rotate(-45, 16, 16)" filter="url(#glow)">
+    <!-- Blade tip -->
+    <rect x="15" y="5" width="2" height="2" fill="url(#swordGrad)" rx="0"/>
+    <!-- Blade body -->
+    <rect x="15" y="7" width="2" height="2" fill="url(#swordGrad)" rx="0"/>
+    <rect x="15" y="9" width="2" height="2" fill="url(#swordGrad)" rx="0"/>
+    <rect x="15" y="11" width="2" height="2" fill="url(#swordGrad)" rx="0"/>
+    <rect x="15" y="13" width="2" height="2" fill="url(#swordGrad)" rx="0"/>
+    <!-- Blade highlight -->
+    <rect x="15" y="7" width="1" height="8" fill="#ffffff" opacity="0.3" rx="0"/>
+
+    <!-- Guard (crossguard) -->
+    <rect x="11" y="15" width="2" height="2" fill="#7f8c8d" rx="0"/>
+    <rect x="13" y="15" width="2" height="2" fill="#95a5a6" rx="0"/>
+    <rect x="15" y="15" width="2" height="2" fill="#95a5a6" rx="0"/>
+    <rect x="17" y="15" width="2" height="2" fill="#95a5a6" rx="0"/>
+    <rect x="19" y="15" width="2" height="2" fill="#7f8c8d" rx="0"/>
+
+    <!-- Handle -->
+    <rect x="15" y="17" width="2" height="2" fill="#8B5E3C" rx="0"/>
+    <rect x="15" y="19" width="2" height="2" fill="#7a4f2e" rx="0"/>
+    <rect x="15" y="21" width="2" height="2" fill="#8B5E3C" rx="0"/>
+
+    <!-- Pommel -->
+    <rect x="14" y="23" width="4" height="2" fill="#7f8c8d" rx="0"/>
+  </g>
+
+  <!-- Star sparkles -->
+  <circle cx="6" cy="6" r="0.8" fill="#00ffcc" opacity="0.9"/>
+  <circle cx="26" cy="7" r="0.5" fill="#a8ff78" opacity="0.8"/>
+  <circle cx="25" cy="25" r="0.7" fill="#00aaff" opacity="0.7"/>
+  <circle cx="7" cy="26" r="0.5" fill="#00ffcc" opacity="0.6"/>
+
+  <!-- Border glow -->
+  <rect width="32" height="32" rx="6" ry="6" fill="none" stroke="#00ffcc" stroke-width="0.8" stroke-opacity="0.4"/>
+</svg>
