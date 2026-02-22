@@ -125,133 +125,130 @@
 <footer>MultiCraft Tiers made by Covasius</footer>
 
 <script>
-  // tab switching
-  var tabs = document.querySelectorAll('.tab-btn');
-  var panels = document.querySelectorAll('.tab-panel');
+// tab stuff
+var btns = document.querySelectorAll('.tab-btn')
+var panels = document.querySelectorAll('.tab-panel')
 
-  tabs.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var which = this.dataset.tab;
+for (var i = 0; i < btns.length; i++) {
+  btns[i].onclick = function() {
+    var t = this.getAttribute('data-tab')
+    for (var x = 0; x < btns.length; x++) {
+      btns[x].classList.remove('active')
+      btns[x].setAttribute('aria-selected', 'false')
+    }
+    for (var x = 0; x < panels.length; x++) panels[x].classList.remove('active')
+    this.classList.add('active')
+    this.setAttribute('aria-selected', 'true')
+    document.getElementById('tab-' + t).classList.add('active')
+  }
+}
 
-      tabs.forEach(function(b) {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      panels.forEach(function(p) { p.classList.remove('active'); });
+// order matters here, don't change it
+var TIER_KEYS = ['HT1','LT1','HT2','LT2','HT3','LT3','HT4','LT4','HT5','LT5']
 
-      this.classList.add('active');
-      this.setAttribute('aria-selected', 'true');
-      document.getElementById('tab-' + which).classList.add('active');
-    });
-  });
+// each tier's name + subtitle + css class
+// added cssClass bc i kept forgetting the naming pattern lol
+var TIERS = {
+  HT1: { name: 'High Tier 1', desc: 'The Absolute Best',  cls: 'tier-ht1' },
+  LT1: { name: 'Low Tier 1',  desc: 'Near Pinnacle',      cls: 'tier-lt1' },
+  HT2: { name: 'High Tier 2', desc: 'Elite Competitors',  cls: 'tier-ht2' },
+  LT2: { name: 'Low Tier 2',  desc: 'Strong Players',     cls: 'tier-lt2' },
+  HT3: { name: 'High Tier 3', desc: 'Above Average',      cls: 'tier-ht3' },
+  LT3: { name: 'Low Tier 3',  desc: 'Solid Performers',   cls: 'tier-lt3' },
+  HT4: { name: 'High Tier 4', desc: 'Average',            cls: 'tier-ht4' },
+  LT4: { name: 'Low Tier 4',  desc: 'Below Average',      cls: 'tier-lt4' },
+  HT5: { name: 'High Tier 5', desc: 'Developing',         cls: 'tier-ht5' },
+  LT5: { name: 'Low Tier 5',  desc: 'Entry Level',        cls: 'tier-lt5' },
+}
 
-  // tier order top to bottom
-  var tierOrder = ['HT1','LT1','HT2','LT2','HT3','LT3','HT4','LT4','HT5','LT5'];
+// from stackoverflow, needed to stop people breaking the page with weird names
+// https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
+function esc(str) {
+  var d = document.createElement('div')
+  d.appendChild(document.createTextNode(str))
+  return d.innerHTML
+}
 
-  var tierInfo = {
-    HT1: { label: 'High Tier 1', sub: 'The Absolute Best',  cls: 'tier-ht1', badge: 'HT1' },
-    LT1: { label: 'Low Tier 1',  sub: 'Near Pinnacle',      cls: 'tier-lt1', badge: 'LT1' },
-    HT2: { label: 'High Tier 2', sub: 'Elite Competitors',  cls: 'tier-ht2', badge: 'HT2' },
-    LT2: { label: 'Low Tier 2',  sub: 'Strong Players',     cls: 'tier-lt2', badge: 'LT2' },
-    HT3: { label: 'High Tier 3', sub: 'Above Average',      cls: 'tier-ht3', badge: 'HT3' },
-    LT3: { label: 'Low Tier 3',  sub: 'Solid Performers',   cls: 'tier-lt3', badge: 'LT3' },
-    HT4: { label: 'High Tier 4', sub: 'Average',            cls: 'tier-ht4', badge: 'HT4' },
-    LT4: { label: 'Low Tier 4',  sub: 'Below Average',      cls: 'tier-lt4', badge: 'LT4' },
-    HT5: { label: 'High Tier 5', sub: 'Developing',         cls: 'tier-ht5', badge: 'HT5' },
-    LT5: { label: 'Low Tier 5',  sub: 'Entry Level',        cls: 'tier-lt5', badge: 'LT5' },
-  };
+function showTiers(id, data) {
+  var el = document.getElementById(id)
+  if (!el) return
 
-  // sanitize player names just in case
-  function safe(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  // bucket everyone into their tier
+  var buckets = {}
+  for (var i = 0; i < TIER_KEYS.length; i++) buckets[TIER_KEYS[i]] = []
+
+  for (var i = 0; i < data.length; i++) {
+    var raw = data[i].tier
+    if (!raw) continue
+    var k = raw.trim().toUpperCase().replace(' ', '')
+    if (buckets[k]) buckets[k].push(data[i])
   }
 
-  function buildTierList(containerId, playerList) {
-    var wrap = document.getElementById(containerId);
-    if (!wrap) return;
-    wrap.innerHTML = '';
+  var out = ''
+  for (var i = 0; i < TIER_KEYS.length; i++) {
+    var key = TIER_KEYS[i]
+    var meta = TIERS[key]
+    var players = buckets[key]
+    var n = players.length
 
-    // bucket players by tier
-    var buckets = {};
-    tierOrder.forEach(function(t) { buckets[t] = []; });
+    out += '<div class="tier-section ' + meta.cls + '">'
 
-    playerList.forEach(function(p) {
-      var key = p.tier.toUpperCase().replace(/\s/g, '');
-      if (buckets[key] !== undefined) {
-        buckets[key].push(p);
+    out += '<div class="tier-label">'
+    out += '<div class="tier-badge">' + key + '</div>'
+    out += '<div class="tier-name-block">'
+    out += '<div class="tier-name-label">' + meta.name + '</div>'
+    out += '<div class="tier-name-sub">' + meta.desc + '</div>'
+    out += '</div>'
+    out += '<div class="tier-divider"></div>'
+    out += '<div class="tier-count">' + n + (n == 1 ? ' player' : ' players') + '</div>'
+    out += '</div>'
+
+    out += '<div class="player-grid">'
+    if (n == 0) {
+      out += '<div class="empty-tier">No players in this tier</div>'
+    } else {
+      for (var j = 0; j < players.length; j++) {
+        var p = players[j]
+        var delay = j * 0.04
+        out += '<div class="player-card" style="animation-delay:' + delay.toFixed(2) + 's">'
+        out += '<span class="player-name">' + esc(p.name) + '</span>'
+        out += '<span class="continent-tag" data-continent="' + esc(p.continent) + '">' + esc(p.continent) + '</span>'
+        out += '</div>'
       }
-      // silently skip unknown tiers
-    });
+    }
+    out += '</div>'
 
-    tierOrder.forEach(function(tier) {
-      var info = tierInfo[tier];
-      var players = buckets[tier];
-
-      var section = document.createElement('div');
-      section.className = 'tier-section ' + info.cls;
-
-      var header = document.createElement('div');
-      header.className = 'tier-label';
-      var pluralSuffix = players.length !== 1 ? 's' : '';
-      header.innerHTML =
-        '<div class="tier-badge">' + info.badge + '</div>' +
-        '<div class="tier-name-block">' +
-          '<div class="tier-name-label">' + info.label + '</div>' +
-          '<div class="tier-name-sub">' + info.sub + '</div>' +
-        '</div>' +
-        '<div class="tier-divider"></div>' +
-        '<div class="tier-count">' + players.length + ' player' + pluralSuffix + '</div>';
-      section.appendChild(header);
-
-      var grid = document.createElement('div');
-      grid.className = 'player-grid';
-
-      if (players.length === 0) {
-        grid.innerHTML = '<div class="empty-tier">No players in this tier</div>';
-      } else {
-        players.forEach(function(p, idx) {
-          var card = document.createElement('div');
-          card.className = 'player-card';
-          card.style.animationDelay = (idx * 0.04) + 's';
-          card.innerHTML =
-            '<span class="player-name">' + safe(p.name) + '</span>' +
-            '<span class="continent-tag" data-continent="' + safe(p.continent) + '">' + safe(p.continent) + '</span>';
-          grid.appendChild(card);
-        });
-      }
-
-      section.appendChild(grid);
-      wrap.appendChild(section);
-    });
+    out += '</div>'
   }
 
-  // load all the player data
-  fetch('players.json')
-    .then(function(res) {
-      if (!res.ok) throw new Error('players.json fetch failed: ' + res.status);
-      return res.json();
-    })
-    .then(function(data) {
-      buildTierList('tiers-overall',       data.overall       || []);
-      buildTierList('tiers-emerald',       data.emerald       || []);
-      buildTierList('tiers-dragonhide',    data.dragonhide    || []);
-      buildTierList('tiers-dragonhide_kb', data.dragonhide_kb || []);
-      buildTierList('tiers-classic_mace',  data.classic_mace  || []);
-      buildTierList('tiers-modern_mace',   data.modern_mace   || []);
-      buildTierList('tiers-wand',          data.wand          || []);
-      buildTierList('tiers-spear',         data.spear         || []);
-      buildTierList('tiers-manhunt',       data.manhunt       || []);
-    })
-    .catch(function(err) {
-      console.error('Could not load players:', err);
-      document.querySelectorAll('[id^="tiers-"]').forEach(function(el) {
-        el.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,100,100,0.7);letter-spacing:0.2em;font-size:0.85rem;text-transform:uppercase;">Could not load player data — make sure players.json is in the same folder.</div>';
-      });
-    });
+  el.innerHTML = out
+}
+
+var kitIds = [
+  'overall', 'emerald', 'dragonhide', 'dragonhide_kb',
+  'classic_mace', 'modern_mace', 'wand', 'spear', 'manhunt'
+]
+
+fetch('players.json')
+  .then(function(r) {
+    if (!r.ok) throw 'bad response ' + r.status
+    return r.json()
+  })
+  .then(function(json) {
+    for (var i = 0; i < kitIds.length; i++) {
+      var kit = kitIds[i]
+      showTiers('tiers-' + kit, json[kit] || [])
+    }
+  })
+  .catch(function(e) {
+    console.log('players.json load failed:', e)
+    // just show an error everywhere
+    var errMsg = '<div style="text-align:center;padding:40px;color:rgba(255,100,100,0.7);letter-spacing:0.2em;font-size:0.85rem;text-transform:uppercase;">Could not load player data — make sure players.json is in the same folder.</div>'
+    for (var i = 0; i < kitIds.length; i++) {
+      var d = document.getElementById('tiers-' + kitIds[i])
+      if (d) d.innerHTML = errMsg
+    }
+  })
 </script>
 
 </body>
