@@ -44,7 +44,6 @@
     <button class="kit-tab" data-tab="dragonhide_kb" role="tab" aria-selected="false">Dragonhide KB</button>
 
     
-    <button class="kit-tab" data-tab="classic_mace" role="tab" aria-selected="false">Classic Mace</button>
     <button class="kit-tab" data-tab="modern_mace" role="tab" aria-selected="false">Modern Mace</button>
     <button class="kit-tab" data-tab="wand" role="tab" aria-selected="false">Wand</button>
     <button class="kit-tab" data-tab="spear" role="tab" aria-selected="false">Spear</button>
@@ -96,14 +95,6 @@
       <div class="kit-flavor">Dragonhide KB PvP</div>
     </div>
     <div id="tiers-dragonhide_kb"></div>
-  </section>
-
-  <section class="kit-panel" id="tab-classic_mace" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name classic-mace-color">Classic Mace Kit</div>
-      <div class="kit-flavor">Classic Mace PvP</div>
-    </div>
-    <div id="tiers-classic_mace"></div>
   </section>
 
   <section class="kit-panel" id="tab-modern_mace" role="tabpanel">
@@ -257,7 +248,7 @@ fetch('players.json').then(function(r) {
   if (!r.ok) throw 'status ' + r.status
   return r.json()
 }).then(function(data) {
-  var kits = ['overall','emerald','dragonhide','dragonhide_kb','classic_mace','modern_mace','wand','spear','manhunt']
+  var kits = ['overall','emerald','dragonhide','dragonhide_kb','modern_mace','wand','spear','manhunt']
   for (var i = 0; i < kits.length; i++) {
     loadedData[kits[i]] = data[kits[i]] || []
   }
@@ -266,7 +257,6 @@ fetch('players.json').then(function(r) {
   fillKit('tiers-emerald',      loadedData.emerald)
   fillKit('tiers-dragonhide',   loadedData.dragonhide)
   fillKit('tiers-dragonhide_kb',loadedData.dragonhide_kb)
-  fillKit('tiers-classic_mace', loadedData.classic_mace)
   fillKit('tiers-modern_mace',  loadedData.modern_mace)
   fillKit('tiers-wand',         loadedData.wand)
   fillKit('tiers-spear',        loadedData.spear)
