@@ -1,6 +1,22 @@
 {
   "overall": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
+    { "name": "Computer and Connected", "continent": "NA", "tier": "HT1" },
+    { "name": "Verxsion", "continent": "NA", "tier": "HT1" },
+    { "name": "Game1K", "continent": "NA", "tier": "HT1" },
+    { "name": "DivyamGamerYT", "continent": "AS", "tier": "HT1" },
+    { "name": "system1117", "continent": "NA", "tier": "LT1" },
+    { "name": "UGI_GOD", "continent": "AS", "tier": "LT1" },
+    { "name": "TERRORRR", "continent": "AS", "tier": "LT1" },
+    { "name": "Rain_", "continent": "NA", "tier": "LT1" },
+    { "name": "quickhertz", "continent": "NA", "tier": "LT1" },
+    { "name": "Mobile", "continent": "NA", "tier": "HT1" },
+    { "name": "sxmple", "continent": "NA", "tier": "HT1" },
+    { "name": "IDKBROO", "continent": "NA", "tier": "HT1" },
+    { "name": "Fimos", "continent": "AS", "tier": "HT1" },
+    { "name": "EL-LERDO", "continent": "AS", "tier": "LT1" },
+    { "name": "Lasagna_God", "continent": "NA", "tier": "LT1" },
+    { "name": "Sneger", "continent": "NA", "tier": "LT1" },
+    { "name": "Lxderr", "continent": "NA", "tier": "HT2" },
   ],
   "emerald": [
     { "name": "Vacant", "continent": "NA", "tier": "HT1" }
