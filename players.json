@@ -1,6 +1,6 @@
 {
   "overall": [
-    { "name": "Computer and Connected Tiers", "continent": "NA", "tier": "HT1" },
+    { "name": "ComputerTiers", "continent": "NA", "tier": "HT1" },
     { "name": "Verxsion", "continent": "NA", "tier": "HT1" },
     { "name": "Game1K", "continent": "NA", "tier": "HT1" },
     { "name": "DivyamGamerYT", "continent": "AS", "tier": "HT1" },
@@ -9,7 +9,7 @@
     { "name": "TERRORRR", "continent": "AS", "tier": "LT1" },
     { "name": "Rain_", "continent": "NA", "tier": "LT1" },
     { "name": "quickhertz", "continent": "NA", "tier": "LT1" },
-    { "name": "Mobile Tiers", "continent": "NA", "tier": "HT1" },
+    { "name": "MobileTiers", "continent": "NA", "tier": "HT1" },
     { "name": "sxmple", "continent": "NA", "tier": "HT1" },
     { "name": "IDKBROO", "continent": "NA", "tier": "HT1" },
     { "name": "Fimos", "continent": "AS", "tier": "HT1" },
