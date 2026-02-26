@@ -1,22 +1,20 @@
 {
   "overall": [
-    { "name": "COMPUTER AND CONNECTED TIERS", "continent": "NA", "tier": "HT1" },
-    { "name": "Verxsion", "continent": "NA", "tier": "HT1" },
-    { "name": "Game1K", "continent": "NA", "tier": "HT1" },
-    { "name": "DivyamGamerYT", "continent": "AS", "tier": "HT1" },
-    { "name": "system1117", "continent": "NA", "tier": "LT1" },
-    { "name": "UGIGOD", "continent": "AS", "tier": "LT1" },
-    { "name": "TERRORRR", "continent": "AS", "tier": "LT1" },
-    { "name": "Rain", "continent": "NA", "tier": "LT1" },
-    { "name": "quickhertz", "continent": "NA", "tier": "LT1" },
-    { "name": "MOBILE TIERS", "continent": "NA", "tier": "HT1" },
-    { "name": "sxmple", "continent": "NA", "tier": "HT1" },
-    { "name": "IDKBROO", "continent": "NA", "tier": "HT1" },
-    { "name": "Fimos", "continent": "AS", "tier": "HT1" },
-    { "name": "EL-LERDO", "continent": "AS", "tier": "LT1" },
-    { "name": "LasagnaGod", "continent": "NA", "tier": "LT1" },
-    { "name": "Sneger", "continent": "NA", "tier": "LT1" },
-    { "name": "Lxderr", "continent": "NA", "tier": "HT2" }
+    { "name": "Verxsion (CC)", "continent": "NA", "tier": "HT1" },
+    { "name": "Game1K (CC)", "continent": "NA", "tier": "HT1" },
+    { "name": "DivyamGamerYT (CC)", "continent": "AS", "tier": "HT1" },
+    { "name": "system1117 (CC)", "continent": "NA", "tier": "LT1" },
+    { "name": "UGIGOD (CC)", "continent": "AS", "tier": "LT1" },
+    { "name": "TERRORRR (CC)", "continent": "AS", "tier": "LT1" },
+    { "name": "Rain (CC)", "continent": "NA", "tier": "LT1" },
+    { "name": "quickhertz (CC)", "continent": "NA", "tier": "LT1" },
+    { "name": "sxmple (MB)", "continent": "NA", "tier": "HT1" },
+    { "name": "IDKBROO (MB)", "continent": "NA", "tier": "HT1" },
+    { "name": "Fimos (MB)", "continent": "AS", "tier": "HT1" },
+    { "name": "EL-LERDO (MB)", "continent": "AS", "tier": "LT1" },
+    { "name": "LasagnaGod (MB)", "continent": "NA", "tier": "LT1" },
+    { "name": "Sneger (MB)", "continent": "NA", "tier": "LT1" },
+    { "name": "Lxderr (MB)", "continent": "NA", "tier": "HT2" }
   ],
   "emerald": [
     { "name": "Vacant", "continent": "NA", "tier": "HT1" }
