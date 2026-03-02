@@ -1,41 +1,68 @@
 {
   "overall": [
-    { "name": "Verxsion (CC)", "continent": "NA", "tier": "HT1" },
-    { "name": "Game1K (CC)", "continent": "NA", "tier": "HT1" },
-    { "name": "DivyamGamerYT (CC)", "continent": "AS", "tier": "HT1" },
-    { "name": "system1117 (CC)", "continent": "NA", "tier": "LT1" },
-    { "name": "UGIGOD (CC)", "continent": "AS", "tier": "LT1" },
-    { "name": "TERRORRR (CC)", "continent": "AS", "tier": "LT1" },
-    { "name": "Rain (CC)", "continent": "NA", "tier": "LT1" },
-    { "name": "quickhertz (CC)", "continent": "NA", "tier": "LT1" },
-    { "name": "sxmple (MB)", "continent": "NA", "tier": "HT1" },
-    { "name": "IDKBROO (MB)", "continent": "NA", "tier": "HT1" },
-    { "name": "Fimos (MB)", "continent": "AS", "tier": "HT1" },
-    { "name": "EL-LERDO (MB)", "continent": "AS", "tier": "LT1" },
-    { "name": "LasagnaGod (MB)", "continent": "NA", "tier": "LT1" },
-    { "name": "Sneger (MB)", "continent": "NA", "tier": "LT1" },
-    { "name": "Lxderr (MB)", "continent": "NA", "tier": "HT2" }
-  ],
-  "emerald": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
-  ],
-  "dragonhide": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
-  ],
-  "dragonhide_kb": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
-  ],
-  "modern_mace": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
-  ],
-  "wand": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
-  ],
-  "spear": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
-  ],
-  "manhunt": [
-    { "name": "Vacant", "continent": "NA", "tier": "HT1" }
+    { "name": "1. Verxsion (PC)", "continent": "NA", "tier": "BestEver" },
+    { "name": "2. Game1K (PC)", "continent": "NA", "tier": "HT1" },
+    { "name": "3. DivyamGamerYT (PC)", "continent": "AS", "tier": "HT1" },
+    { "name": "4. system1117 (PC)", "continent": "NA", "tier": "LT1" },
+    { "name": "5. UGIGOD (PC)", "continent": "AS", "tier": "LT1" },
+    { "name": "6. TERRORRR (PC)", "continent": "AS", "tier": "LT1" },
+    { "name": "7. Rain (PC)", "continent": "NA", "tier": "LT1" },
+    { "name": "8. quickhertz (PC)", "continent": "NA", "tier": "LT1" },
+    
+    { "name": "1. sxmple (Mobile)", "continent": "NA", "tier": "HT1" },
+    { "name": "2. ChillPotato (Mobile)", "continent": "NA", "tier": "HT1" },
+    { "name": "3. IDKBROO (Mobile)", "continent": "NA", "tier": "HT1" },
+    { "name": "4. Fimos (Mobile)", "continent": "AS", "tier": "HT1" },
+    { "name": "5. EL-LERDO (Mobile)", "continent": "AS", "tier": "LT1" },
+    { "name": "6. LasagnaGod (Mobile)", "continent": "NA", "tier": "LT1" },
+    { "name": "7. Sneger (Mobile)", "continent": "NA", "tier": "LT1" },
+    { "name": "8. Lxderr (Mobile)", "continent": "NA", "tier": "HT2" },
+    
+    { "name": "mirsamil (Mobile)", "continent": "Unknown", "tier": "HT3" },
+    { "name": "YOUUUUU (Mobile)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "DzIla_EDITS (Mobile)", "continent": "Unknown", "tier": "LT2" },
+    { "name": "FarXD (Mobile)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "Big_BlackDude-XD (Mobile)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "M0rt7uxYT (PC)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "ChillPotato (Mobile)", "continent": "Unknown", "tier": "HT1" },
+    { "name": "Sample (Mobile)", "continent": "Unknown", "tier": "HT1" },
+    { "name": "x2zert (PC)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "CatNapTRpcC (PC)", "continent": "Unknown", "tier": "HT3" },
+    { "name": "panda (PC)", "continent": "Unknown", "tier": "HT3" },
+    { "name": "Seon-Je (PC)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "breaDD (PC)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "f0rg1v3n (PC)", "continent": "Unknown", "tier": "HT3" },
+    { "name": "Possessed_YT (Mobile)", "continent": "Unknown", "tier": "LT2" },
+    { "name": "Evolution (Mobile)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "tqmen (Mobile)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "_Maxi_3029_69 (Mobile)", "continent": "Unknown", "tier": "LT4" },
+    { "name": "kevinTurkew (Mobile)", "continent": "Unknown", "tier": "LT4" },
+    { "name": "-R3ZN- (Mobile)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "AntonioZga8 (Mobile)", "continent": "Unknown", "tier": "HT5" },
+    { "name": "blessed (Mobile)", "continent": "Unknown", "tier": "LT2" },
+    { "name": "Ayushmaan234 (PC)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "Premium (PC)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "Water06 (PC)", "continent": "Unknown", "tier": "HT3" },
+    { "name": "Zyrox (PC)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "123cs (PC)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "GameMaster (PC)", "continent": "Unknown", "tier": "HT1" },
+    { "name": "Sum123 (PC)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "Maynk (PC)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "TheNoobieOne (PC)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "darkness (PC)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "musa-- (PC)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "NoT_HuMaN (PC)", "continent": "Unknown", "tier": "LT1" },
+    { "name": "KORKMAZ (Mobile)", "continent": "Unknown", "tier": "HT2" },
+    { "name": "CSL25 (Mobile)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "Rose-3 (Mobile)", "continent": "Unknown", "tier": "LT4" },
+    { "name": "1love (Mobile)", "continent": "Unknown", "tier": "LT3" },
+    { "name": "keeth (Mobile)", "continent": "Unknown", "tier": "HT5" },
+    { "name": "Joshua_tofye (PC)", "continent": "Unknown", "tier": "HT4" },
+    { "name": "Kai_Elder (Mobile)", "continent": "Unknown", "tier": "HT4" },
+    { "name": "Leoyt (Mobile)", "continent": "Unknown", "tier": "HT5" },
+    { "name": "VIPadam (PC)", "continent": "Unknown", "tier": "HT5" },
+    { "name": "XXx_Aron_xXD (Mobile)", "continent": "Unknown", "tier": "HT4" },
+    { "name": "SoulKillerXD-PC (PC)", "continent": "Unknown", "tier": "HT3" }
   ]
 }
 
