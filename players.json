@@ -1,13 +1,12 @@
 {
   "overall": [
     { "name": "1. Verxsion (PC)", "continent": "NA", "tier": "HT1" },
-    { "name": "2. Game1K (PC)", "continent": "NA", "tier": "HT1" },
-    { "name": "3. DivyamGamerYT (PC)", "continent": "AS", "tier": "HT1" },
-    { "name": "4. system1117 (PC)", "continent": "NA", "tier": "LT1" },
-    { "name": "5. UGIGOD (PC)", "continent": "AS", "tier": "LT1" },
-    { "name": "6. TERRORRR (PC)", "continent": "AS", "tier": "LT1" },
-    { "name": "7. Rain (PC)", "continent": "NA", "tier": "LT1" },
-    { "name": "8. quickhertz (PC)", "continent": "NA", "tier": "LT1" },
+    { "name": "2. DivyamGamerYT (PC)", "continent": "NA", "tier": "HT1" },
+    { "name": "3. system1117 (PC)", "continent": "AS", "tier": "HT1" },
+    { "name": "4. UGIGOD (PC)", "continent": "NA", "tier": "LT1" },
+    { "name": "5. TERRORRR (PC)", "continent": "AS", "tier": "LT1" },
+    { "name": "6. Rain (PC)", "continent": "AS", "tier": "LT1" },
+    { "name": "7. quickhertz (PC)", "continent": "NA", "tier": "LT1" },
     
     { "name": "1. sxmple (Mobile)", "continent": "NA", "tier": "HT1" },
     { "name": "2. ChillPotato (Mobile)", "continent": "NA", "tier": "HT1" },
