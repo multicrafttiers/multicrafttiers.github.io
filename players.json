@@ -60,10 +60,10 @@
     { "name": "SoulKillerXD-PC (PC)", "continent": "Unknown", "tier": "HT3" },
     { "name": "x9jm (PC)", "continent": "NA", "tier": "HT2" }
   ],
-  "Dragonhide KB": [
+  "dragonhide kb": [
     { "name": "x9jm (PC)", "continent": "NA", "tier": "HT2" }
   ],
-  "Emerald": [
+  "emerald": [
     { "name": "x9jm (PC)", "continent": "NA", "tier": "LT2" }
   ]
 }
