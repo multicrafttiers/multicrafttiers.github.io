@@ -57,7 +57,14 @@
     { "name": "Leoyt (Mobile)", "continent": "Unknown", "tier": "HT5" },
     { "name": "VIPadam (PC)", "continent": "Unknown", "tier": "HT5" },
     { "name": "XXx_Aron_xXD (Mobile)", "continent": "Unknown", "tier": "HT4" },
-    { "name": "SoulKillerXD-PC (PC)", "continent": "Unknown", "tier": "HT3" }
+    { "name": "SoulKillerXD-PC (PC)", "continent": "Unknown", "tier": "HT3" },
+    { "name": "x9jm (PC)", "continent": "NA", "tier": "HT2" }
+  ],
+  "Dragonhide KB": [
+    { "name": "x9jm (PC)", "continent": "NA", "tier": "HT2" }
+  ],
+  "Emerald": [
+    { "name": "x9jm (PC)", "continent": "NA", "tier": "LT2" }
   ]
 }
 
