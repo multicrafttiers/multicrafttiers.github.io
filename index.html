@@ -10,17 +10,258 @@
   <meta property="og:description" content="Global PvP Rankings" />
   <meta property="og:image" content="https://multicraft.world/images/tild3864-6536-4335-a134-323832623836__noroot.png">
   <meta name="theme-color" content="#00ffcc" />
+  <style>
+    .sub-tier-block {
+      margin: 0 0 12px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.025);
+    }
+    .sub-tier-name {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #ffd700;
+      display: block; padding: 10px 18px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .sub-tier-name.stn-retired { color: #aaa; }
+    .sub-tier-name.stn-mobile  { color: #ffd700; }
+    .tier-player-list { display: flex; flex-direction: column; }
+    .tier-player-entry {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer; transition: background 0.14s;
+      animation: chipIn 0.2s ease both;
+    }
+    .tier-player-entry:last-child { border-bottom: none; }
+    .tier-player-entry:hover { background: rgba(255,255,255,0.05); }
+    .entry-name { font-size: 0.88rem; font-weight: 600; color: #e8e8e8; flex: 1; }
+    .entry-retired .entry-name { color: rgba(200,200,200,0.55); }
+    .tier-section { margin: 0 0 24px; padding: 0 18px; }
+    .tier-section-header {
+      display: flex; align-items: center; gap: 12px; padding: 20px 18px 8px;
+    }
+    .tier-section-header > .tsn {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.13em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5); white-space: nowrap;
+    }
+    .tier-section-header::after {
+      content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07);
+    }
+    .tier-section-header.header-waitlist > .tsn { color: rgba(255,255,255,0.22); }
+    .tier-section-header.header-retired  > .tsn { color: rgba(160,160,160,0.5); }
+    .tier-section-header.header-mobile   > .tsn { color: rgba(60,220,200,0.5); }
+    .tier-player-row { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 18px 16px; }
+    .player-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px; padding: 6px 11px; font-size: 0.82rem;
+      white-space: nowrap; animation: chipIn 0.22s ease both;
+      cursor: pointer; transition: background 0.15s, border-color 0.15s;
+    }
+    .player-chip:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+    @keyframes chipIn {
+      from { opacity:0; transform:translateY(3px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .chip-name { font-weight: 600; color: #e8e8e8; }
+    .player-chip.chip-waitlist {
+      border-style: dashed; border-color: rgba(255,255,255,0.13);
+      background: rgba(255,255,255,0.02); opacity: 0.65;
+    }
+    .player-chip.chip-waitlist .chip-name { color: rgba(255,255,255,0.45); }
+    .player-chip.chip-waitlist:hover { opacity: 0.9; }
+    .player-chip.chip-retired {
+      border-color: rgba(160,160,160,0.2); background: rgba(160,160,160,0.04);
+    }
+    .player-chip.chip-retired .chip-name { color: rgba(200,200,200,0.65); }
+    .tier-empty {
+      padding: 2px 18px 14px; font-size: 0.74rem;
+      color: rgba(255,255,255,0.18); font-style: italic;
+    }
+    .tag-region {
+      font-size: 0.67rem; font-weight: 700; padding: 2px 6px;
+      border-radius: 4px; letter-spacing: 0.05em;
+    }
+    /* Region tag colors — generated from CONFIG.regions at runtime via JS */
+    .tag-device {
+      font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+      letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid transparent;
+    }
+    /* Device tag colors — generated from CONFIG.devices at runtime via JS */
+    .tag-tier {
+      font-size: 0.65rem; font-weight: 700; padding: 2px 6px;
+      border-radius: 4px; letter-spacing: 0.05em;
+      background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
+    }
+    .tag-tier.tag-retired { background: rgba(160,160,160,0.1); color: rgba(190,190,190,0.6); }
+    .tag-tier.tag-mobile  { background: rgba(0,220,200,0.1);   color: rgba(60,220,200,0.85); }
+    .lb-wrap { padding: 4px 0 28px; }
+    .lb-row {
+      display: flex; align-items: center; gap: 14px; padding: 13px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      animation: chipIn 0.22s ease both; transition: background 0.15s; cursor: pointer;
+    }
+    .lb-row:hover { background: rgba(255,255,255,0.04); }
+    .lb-rank {
+      font-size: 0.78rem; font-weight: 700; color: rgba(255,255,255,0.22);
+      min-width: 38px; text-align: right; font-variant-numeric: tabular-nums; flex-shrink: 0;
+    }
+    .lb-rank.r1 { color: #ffd700; font-size: 0.88rem; }
+    .lb-rank.r2 { color: #b8b8b8; font-size: 0.84rem; }
+    .lb-rank.r3 { color: #cd7f32; font-size: 0.82rem; }
+    .lb-name {
+      font-size: 0.92rem; font-weight: 600; color: #e8e8e8;
+      flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .lb-tags { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+    .lb-elo-wrap { text-align: right; flex-shrink: 0; min-width: 64px; }
+    .lb-elo { font-size: 1.05rem; font-weight: 700; color: #00ffcc; line-height: 1.15; font-variant-numeric: tabular-nums; }
+    .lb-elo-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,255,204,0.38); }
+    .lb-row.lb-waitlist { opacity: 0.45; }
+    .lb-row.lb-waitlist .lb-rank { color: rgba(255,255,255,0.15); }
+    .lb-row.lb-waitlist .lb-elo  { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+    .lb-empty { text-align: center; padding: 52px 20px; color: rgba(255,100,100,0.45); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    #info-btn {
+      position: fixed; bottom: 22px; right: 22px;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(0,255,204,0.08); border: 1.5px solid rgba(0,255,204,0.25);
+      color: #00ffcc; font-size: 1rem; font-weight: 700; font-style: italic;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      z-index: 900; transition: background 0.2s, transform 0.15s; user-select: none;
+    }
+    #info-btn:hover { background: rgba(0,255,204,0.18); transform: scale(1.08); }
+    .modal-bg {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.8); z-index: 1000;
+      align-items: center; justify-content: center;
+      padding: 16px; backdrop-filter: blur(6px);
+    }
+    .modal-bg.open { display: flex; }
+    #info-modal {
+      background: #111316; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 28px 30px 24px;
+      max-width: 330px; width: 92%; position: relative;
+    }
+    #info-modal h2 { margin: 0 0 3px; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #00ffcc; }
+    .modal-sub { font-size: 0.73rem; color: rgba(255,255,255,0.28); margin: 0 0 16px; }
+    .pt-table { width: 100%; border-collapse: collapse; }
+    .pt-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .pt-table tr:last-child { border-bottom: none; }
+    .pt-table td { padding: 7px 4px; font-size: 0.82rem; }
+    .pt-key  { font-weight: 700; color: rgba(255,255,255,0.65); width: 46px; }
+    .pt-name { color: rgba(255,255,255,0.3); }
+    .pt-pts  { text-align: right; font-weight: 700; color: #00ffcc; }
+    .modal-close {
+      position: absolute; top: 13px; right: 15px;
+      background: none; border: none; color: rgba(255,255,255,0.3);
+      font-size: 1.1rem; cursor: pointer; line-height: 1;
+    }
+    .modal-close:hover { color: #fff; }
+    #profile-modal {
+      background: #0a0b0e;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      max-width: 520px; width: 100%;
+      position: relative; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+      animation: profileIn 0.25s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes profileIn {
+      from { opacity:0; transform: scale(0.92) translateY(12px); }
+      to   { opacity:1; transform: scale(1) translateY(0); }
+    }
+    .profile-accent { height: 3px; background: linear-gradient(90deg, #ffd700, #ffb300); }
+    .profile-accent.acc-retired  { background: linear-gradient(90deg, #888, #555); }
+    .profile-accent.acc-mobile   { background: linear-gradient(90deg, #06b6d4, #0ea5e9); }
+    .profile-accent.acc-waitlist { background: rgba(255,255,255,0.07); }
+    .profile-hero { padding: 32px 36px 24px; display: flex; flex-direction: column; align-items: flex-start; }
+    .profile-rank-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); margin-bottom: 14px;
+    }
+    .profile-rank-pill .rank-num { color: #00ffcc; font-size: 0.72rem; }
+    .profile-name { font-size: 2.4rem; font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; margin-bottom: 16px; }
+    .profile-meta-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+    .profile-elo-block { display: flex; align-items: baseline; gap: 8px; margin-top: 4px; }
+    .profile-elo-num { font-size: 3rem; font-weight: 900; color: #ffd700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .profile-elo-unit { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,215,0,0.4); text-transform: uppercase; }
+    .profile-pending {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: 0.75rem; color: rgba(255,255,255,0.28); font-style: italic; margin-top: 8px;
+    }
+    #profile-modal-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.4); font-size: 0.9rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s; z-index: 10;
+    }
+    #profile-modal-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .profile-kits-section { border-top: 1px solid rgba(255,255,255,0.06); padding: 20px 36px 28px; }
+    .profile-kits-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 14px; }
+    .profile-kits-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+    .kit-card {
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 14px 12px 10px;
+      min-width: 82px; width: 82px;
+      cursor: default;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .kit-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-3px); }
+    .kit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #ffd700; }
+    .kc-retired::before  { background: #888; }
+    .kc-waitlist::before { background: rgba(255,255,255,0.07); }
+    .kit-card-img {
+      width: 42px; height: 42px; object-fit: contain; image-rendering: pixelated;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); margin-bottom: 8px; transition: transform 0.2s;
+    }
+    .kit-card:hover .kit-card-img { transform: scale(1.1); }
+    .kc-waitlist .kit-card-img { filter: grayscale(1) opacity(0.3); }
+    .kc-retired  .kit-card-img { filter: grayscale(0.7) opacity(0.65); }
+    .kit-card-tier { font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; text-align: center; color: #ffd700; line-height: 1; }
+    .kc-retired  .kit-card-tier { color: #aaa; }
+    .kc-waitlist .kit-card-tier { color: rgba(255,255,255,0.2); }
+    .kit-card-name {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; text-align: center; color: rgba(255,255,255,0.35);
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height 0.22s ease, opacity 0.22s ease, margin-top 0.22s ease; margin-top: 0;
+    }
+    .kit-card:hover .kit-card-name { max-height: 24px; opacity: 1; margin-top: 5px; }
+    .profile-no-kits { font-size: 0.74rem; color: rgba(255,255,255,0.18); font-style: italic; }
+    .kit-tab-img {
+      width: 18px; height: 18px; object-fit: contain; image-rendering: pixelated;
+      vertical-align: middle; margin-right: 5px;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5)); opacity: 0.75; transition: opacity 0.15s;
+    }
+    .kit-tab.active .kit-tab-img, .kit-tab:hover .kit-tab-img { opacity: 1; }
+    .filter-select {
+      appearance: none; -webkit-appearance: none; padding: 6px 10px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: rgba(255,255,255,0.7); font-size: 0.85rem; cursor: pointer; outline: none;
+    }
+    .filter-select:focus { border-color: rgba(0,255,204,0.4); }
+    .filter-select option { background: #1a1a2e; color: rgba(255,255,255,0.85); }
+  </style>
 </head>
 <body>
 
 <div class="shooting-stars">
-  <div class="star-streak"></div>
-  <div class="star-streak"></div>
-  <div class="star-streak"></div>
-  <div class="star-streak"></div>
+  <div class="star-streak"></div><div class="star-streak"></div>
+  <div class="star-streak"></div><div class="star-streak"></div>
   <div class="star-streak"></div>
 </div>
-
 <div class="bg-blob bg-blob--purple"></div>
 <div class="bg-blob bg-blob--cyan"></div>
 
@@ -28,7 +269,6 @@
   <div class="site-logo">MultiCraft Tiers</div>
   <div class="server-tagline">MultiCraft Build and Mine</div>
   <a href="https://discord.gg/S24kE72Y5u" target="_blank" rel="noopener noreferrer" class="discord-btn">
-    <!-- discord button with the link to the server, updated compat -->
     <svg class="discord-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.079.11 18.1.13 18.113a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.030zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
     </svg>
@@ -37,239 +277,700 @@
 </header>
 
 <main>
-  <nav class="kit-nav" role="tablist">
-    <button class="kit-tab active" data-tab="overall" role="tab" aria-selected="true">Overall</button>
-    <button class="kit-tab" data-tab="emerald" role="tab" aria-selected="false">Emerald</button>
-    <button class="kit-tab" data-tab="dragonhide" role="tab" aria-selected="false">Dragonhide</button>
-    <button class="kit-tab" data-tab="dragonhide_kb" role="tab" aria-selected="false">Dragonhide KB</button>
-
-    
-    <button class="kit-tab" data-tab="modern_mace" role="tab" aria-selected="false">Modern Mace</button>
-    <button class="kit-tab" data-tab="wand" role="tab" aria-selected="false">Wand</button>
-    <button class="kit-tab" data-tab="spear" role="tab" aria-selected="false">Spear</button>
-    <button class="kit-tab" data-tab="manhunt" role="tab" aria-selected="false">Manhunt</button>
-  </nav>
-
+  <nav class="kit-nav" role="tablist" id="kit-nav"></nav>
   <div class="section-rule"></div>
-
   <div class="search-bar-wrap">
     <input type="text" id="playerSearch" placeholder="Search player..." autocomplete="off" spellcheck="false" />
-    <select id="continentFilter">
-      <option value="">All regions</option>
-      <option value="NA">NA</option>
-      <option value="EU">EU</option>
-      <option value="AS">AS</option>
-      <option value="SA">SA</option>
-      <option value="OC">OC</option>
-      <option value="AF">AF</option>
-    </select>
+    <select id="continentFilter" class="filter-select"></select>
+    <select id="deviceFilter" class="filter-select"></select>
   </div>
-
-  <section class="kit-panel active" id="tab-overall" role="tabpanel">
+  <section class="kit-panel" id="tab-overall" role="tabpanel">
     <div class="kit-heading">
-      <div class="kit-name overall-color">Overall Rankings</div>
-      <div class="kit-flavor">Total Performance</div>
+      <div class="kit-name overall-color">Overall Leaderboard</div>
+      <div class="kit-flavor">ELO based on tiers, keep in mind this isn't the real leaderboard.</div>
     </div>
-    <div id="tiers-overall"></div>
+    <div id="lb-overall"></div>
   </section>
-
-  <section class="kit-panel" id="tab-emerald" role="tabpanel">
+  <section class="kit-panel active" id="tab-leaderboard" role="tabpanel">
     <div class="kit-heading">
-      <div class="kit-name emerald-color">Emerald Kit</div>
-      <div class="kit-flavor">Emerald Sword PvP</div>
+      <div class="kit-name" style="color:#00ffcc;">Leaderboard</div>
+      <div class="kit-flavor">The Top 10</div>
     </div>
-    <div id="tiers-emerald"></div>
+    <div id="lb-leaderboard"></div>
   </section>
-
-  <section class="kit-panel" id="tab-dragonhide" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name dragonhide-color">Dragonhide Kit</div>
-      <div class="kit-flavor">Dragonhide PvP</div>
-    </div>
-    <div id="tiers-dragonhide"></div>
-  </section>
-
-  <section class="kit-panel" id="tab-dragonhide_kb" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name dragonhide-kb-color">Dragonhide KB Kit</div>
-      <div class="kit-flavor">Dragonhide KB PvP</div>
-    </div>
-    <div id="tiers-dragonhide_kb"></div>
-  </section>
-
-  <section class="kit-panel" id="tab-modern_mace" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name modern-mace-color">Modern Mace Kit</div>
-      <div class="kit-flavor">Modern Mace PvP</div>
-    </div>
-    <div id="tiers-modern_mace"></div>
-  </section>
-
-  <section class="kit-panel" id="tab-wand" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name wand-color">Wand Kit</div>
-      <div class="kit-flavor">Wand PvP</div>
-    </div>
-    <div id="tiers-wand"></div>
-  </section>
-
-  <section class="kit-panel" id="tab-spear" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name spear-color">Spear Kit</div>
-      <div class="kit-flavor">Spear PvP</div>
-    </div>
-    <div id="tiers-spear"></div>
-  </section>
-
-  <section class="kit-panel" id="tab-manhunt" role="tabpanel">
-    <div class="kit-heading">
-      <div class="kit-name manhunt-color">Manhunt Kit</div>
-      <div class="kit-flavor">Manhunt PvP</div>
-    </div>
-    <div id="tiers-manhunt"></div>
-  </section>
+  <div id="kit-panels-dynamic"></div>
 </main>
 
 <footer>MultiCraft Tiers made by Covasius</footer>
 
+<button id="info-btn" aria-label="Point system info">i</button>
+
+<div id="info-modal-bg" class="modal-bg">
+  <div id="info-modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="info-modal-close" aria-label="Close">&#x2715;</button>
+    <h2>ELO System</h2>
+    <p class="modal-sub">ELO is calculated from tiers.</p>
+    <table class="pt-table" id="elo-table"></table>
+  </div>
+</div>
+
+<div id="profile-modal-bg" class="modal-bg">
+  <div id="profile-modal" role="dialog" aria-modal="true">
+    <button id="profile-modal-close" aria-label="Close">&#x2715;</button>
+    <div class="profile-accent" id="prof-accent"></div>
+    <div class="profile-hero">
+      <div class="profile-rank-pill" id="prof-rank-pill" style="display:none">
+        RANK <span class="rank-num" id="prof-rank-num"></span>
+      </div>
+      <div class="profile-name" id="prof-name"></div>
+      <div class="profile-meta-row" id="prof-meta"></div>
+      <div class="profile-elo-block" id="prof-elo-block" style="display:none">
+        <div class="profile-elo-num" id="prof-elo-num"></div>
+        <div class="profile-elo-unit">ELO</div>
+      </div>
+      <div class="profile-pending" id="prof-pending" style="display:none">Pending evaluation</div>
+    </div>
+    <div class="profile-kits-section" id="prof-kits-section" style="display:none">
+      <div class="profile-kits-label">Kit Rankings</div>
+      <div class="profile-kits-grid" id="prof-kits-grid"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-var btns = document.querySelectorAll('.kit-tab')
-var panels = document.querySelectorAll('.kit-panel')
+/* ════════════════════════════════════════════════════════════════════════════
+   CONFIG — THE ONLY PLACE YOU NEED TO EDIT
+   ════════════════════════════════════════════════════════════════════════════
 
-for (var i = 0; i < btns.length; i++) {
-  btns[i].onclick = function() {
-    for (var j = 0; j < btns.length; j++) {
-      btns[j].classList.remove('active')
-      btns[j].setAttribute('aria-selected', 'false')
-    }
-    for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active')
-    this.classList.add('active')
-    this.setAttribute('aria-selected', 'true')
-    document.getElementById('tab-' + this.dataset.tab).classList.add('active')
+   KITS
+   ────
+   Each kit object has:
+     key       – internal ID used as a data key in players.json  (no spaces)
+     label     – full name shown in panel headings
+     tabLabel  – shorter name shown in the nav tab
+     image     – path to the kit image used in tabs and player profiles
+     color     – accent color for this kit's tab strip and kit cards in profiles
+                 (hex or any valid CSS color)
+
+   TIER ELO (tierPts)
+   ──────────────────
+   Maps each sub-tier key to its ELO value.
+   Prefix rules for players.json:
+     (none)  = normal ranked player   e.g.  HT1
+     R       = retired                e.g.  RHT1
+     M       = mobile                 e.g.  MHT1
+   WAITLIST = 0 ELO, always automatic.
+
+   TIER GROUPS (tierGroups)
+   ────────────────────────
+   Controls which heading rows appear on kit tabs.
+   num must match the trailing digit of the sub-tier keys (e.g. num:1 → HT1/LT1).
+   Add or remove objects here to add/remove tier groups.
+
+   REGIONS
+   ───────
+   Each region has:
+     value – short code used in players.json and filter dropdown
+     label – display text
+     color – text/badge color (background is auto-derived at 18% opacity)
+
+   DEVICES
+   ───────
+   Each device has:
+     value     – used in players.json and filter dropdown
+     label     – display text
+     color     – text color for the badge
+     bgColor   – background color for the badge (default: color at 12% opacity)
+     borderColor – border color (default: color at 30% opacity)
+
+   ════════════════════════════════════════════════════════════════════════════ */
+
+var CONFIG = {
+
+  /* ── Kits ─────────────────────────────────────────────────────────────── */
+  kits: [
+    { key: 'emerald',       label: 'Emerald',       tabLabel: 'Emerald',       image: 'assets/emerald.png',       color: '#00ffcc' },
+    { key: 'dragonhide',    label: 'Dragonhide',    tabLabel: 'Dragonhide',    image: 'assets/dragonhide.png',    color: '#a855f7' },
+    { key: 'dragonhide_kb', label: 'Dragonhide KB', tabLabel: 'Dragonhide KB', image: 'assets/dragonhide_kb.png', color: '#ff0000' },
+    { key: 'mace',          label: 'Mace',          tabLabel: 'Mace',          image: 'assets/mace.png',          color: '#f59e0b' },
+    { key: 'wand',          label: 'Wand',          tabLabel: 'Wand',          image: 'assets/wand.png',          color: '#38bdf8' },
+    { key: 'spear',         label: 'Spear',         tabLabel: 'Spear',         image: 'assets/spear.png',         color: '#f87171' },
+    { key: 'manhunt',       label: 'Manhunt',       tabLabel: 'Manhunt',       image: 'assets/manhunt.png',       color: '#fb923c' },
+  ],
+
+  /* ── ELO per sub-tier ─────────────────────────────────────────────────── */
+  tierPts: {
+    HT1: 50,  LT1: 40,
+    HT2: 30,  LT2: 20,
+    HT3: 12,  LT3: 8,
+    HT4: 5,   LT4: 3,
+    HT5: 2,   LT5: 1,
+  },
+
+  /* ── Tier groups shown as section headings on kit tabs ────────────────── */
+  tierGroups: [
+    { label: 'Tier 1', num: 1 },
+    { label: 'Tier 2', num: 2 },
+    { label: 'Tier 3', num: 3 },
+    { label: 'Tier 4', num: 4 },
+    { label: 'Tier 5', num: 5 },
+  ],
+
+  /* ── Regions ──────────────────────────────────────────────────────────── */
+  regions: [
+    { value: 'NA', label: 'NA', color: '#7eb8ff' },
+    { value: 'EU', label: 'EU', color: '#7be87b' },
+    { value: 'AS', label: 'AS', color: '#f5c36a' },
+    { value: 'SA', label: 'SA', color: '#e07be0' },
+    { value: 'OC', label: 'OC', color: '#3fe8d6' },
+    { value: 'AF', label: 'AF', color: '#f07070' },
+  ],
+
+  /* ── Devices ──────────────────────────────────────────────────────────── */
+  devices: [
+    { value: 'PC',          label: 'PC',          color: '#b09af5', bgColor: 'rgba(120,80,240,0.12)',  borderColor: 'rgba(150,110,255,0.3)' },
+    { value: 'Mobile',      label: 'Mobile',      color: '#3fdfd0', bgColor: 'rgba(0,200,180,0.12)',   borderColor: 'rgba(0,220,200,0.3)'   },
+    { value: 'Controller',  label: 'Controller',  color: '#ffaa44', bgColor: 'rgba(240,100,0,0.12)',   borderColor: 'rgba(255,130,0,0.3)'   },
+  ],
+
+}
+/* ════════════════════════════════════════════════════════════════════════════
+   END CONFIG — do not edit below this line unless you know what you're doing
+   ════════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── Derived maps built from CONFIG ── */
+var KIT_KEYS      = CONFIG.kits.map(function(k){ return k.key })
+var KIT_LABELS    = {}; CONFIG.kits.forEach(function(k){ KIT_LABELS[k.key]     = k.label    })
+var KIT_TAB_LABELS= {}; CONFIG.kits.forEach(function(k){ KIT_TAB_LABELS[k.key]= k.tabLabel  })
+var KIT_IMAGES    = {}; CONFIG.kits.forEach(function(k){ KIT_IMAGES[k.key]     = k.image     })
+var KIT_COLORS    = {}; CONFIG.kits.forEach(function(k){ KIT_COLORS[k.key]     = k.color     })
+var REGION_MAP    = {}; CONFIG.regions.forEach(function(r){ REGION_MAP[r.value]  = r          })
+var DEVICE_MAP    = {}; CONFIG.devices.forEach(function(d){ DEVICE_MAP[d.value]  = d          })
+var PTS_BASE      = CONFIG.tierPts
+
+
+/* ── Inject dynamic CSS for region + device tags ── */
+;(function(){
+  var css = ''
+
+  CONFIG.regions.forEach(function(r){
+    var bg = hexToRgba(r.color, 0.18)
+    css += '.tag-region[data-v="'+r.value+'"]{background:'+bg+';color:'+r.color+'}\n'
+  })
+
+  CONFIG.devices.forEach(function(d){
+    var bg     = d.bgColor     || hexToRgba(d.color, 0.12)
+    var border = d.borderColor || hexToRgba(d.color, 0.30)
+    css += '.tag-device[data-v="'+d.value+'"]{background:'+bg+';border-color:'+border+';color:'+d.color+'}\n'
+  })
+
+  /* Fallback for unknown values */
+  css += '.tag-region{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4)}\n'
+  css += '.tag-device{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.35)}\n'
+
+  /* Per-kit card accent stripe colors injected as CSS custom props on .kit-card */
+  CONFIG.kits.forEach(function(k){
+    css += '.kit-card[data-kit="'+k.key+'"]::before{background:'+k.color+'}\n'
+  })
+
+  var tag = document.createElement('style')
+  tag.textContent = css
+  document.head.appendChild(tag)
+})()
+
+/* ── Inject ELO table in info modal ── */
+;(function(){
+  var tbl = document.getElementById('elo-table')
+  var tierNames = {
+    HT1:'High Tier 1', LT1:'Low Tier 1',
+    HT2:'High Tier 2', LT2:'Low Tier 2',
+    HT3:'High Tier 3', LT3:'Low Tier 3',
+    HT4:'High Tier 4', LT4:'Low Tier 4',
+    HT5:'High Tier 5', LT5:'Low Tier 5',
   }
+  var rows = ''
+  var keys = Object.keys(CONFIG.tierPts)
+  for (var i=0; i<keys.length; i++) {
+    var k = keys[i]
+    rows += '<tr><td class="pt-key">'+k+'</td><td class="pt-name">'+(tierNames[k]||k)+'</td><td class="pt-pts">'+CONFIG.tierPts[k]+' ELO</td></tr>'
+  }
+  rows += '<tr><td class="pt-key" style="opacity:0.4">WL</td><td class="pt-name" style="opacity:0.4">Waitlist</td><td class="pt-pts" style="opacity:0.4">0 ELO</td></tr>'
+  tbl.innerHTML = rows
+})()
+
+
+/* ── Build nav tabs + kit panels dynamically from CONFIG ── */
+var navEl    = document.getElementById('kit-nav')
+var panelsEl = document.getElementById('kit-panels-dynamic')
+
+var navHtml = '<button class="kit-tab active" data-tab="leaderboard" role="tab" aria-selected="true">Leaderboard</button>'
+navHtml    += '<button class="kit-tab" data-tab="overall" role="tab" aria-selected="false">Overall</button>'
+var panelsHtml = ''
+
+for (var ki=0; ki<CONFIG.kits.length; ki++) {
+  var k = CONFIG.kits[ki]
+  navHtml += '<button class="kit-tab" data-tab="'+esc2(k.key)+'" role="tab" aria-selected="false">'
+  navHtml += '<img class="kit-tab-img" src="'+esc2(k.image)+'" alt="" onerror="this.style.display=\'none\'">'
+  navHtml += esc2(k.tabLabel)+'</button>'
+
+  panelsHtml += '<section class="kit-panel" id="tab-'+esc2(k.key)+'" role="tabpanel">'
+  panelsHtml += '<div class="kit-heading" style="text-align:center;">'
+  panelsHtml += '<div class="kit-name" style="display:flex;align-items:center;justify-content:center;gap:10px;color:'+esc2(k.color)+';">'
+  panelsHtml += '<img src="'+esc2(k.image)+'" style="width:28px;height:28px;object-fit:contain;image-rendering:pixelated;" alt="" onerror="this.style.display=\'none\'">'
+  panelsHtml += esc2(k.label)+' Kit</div>'
+  panelsHtml += '<div class="kit-flavor">'+esc2(k.label)+' PvP</div>'
+  panelsHtml += '</div>'
+  panelsHtml += '<div id="tiers-'+esc2(k.key)+'"></div>'
+  panelsHtml += '</section>'
 }
 
-var loadedData = {}
+navEl.innerHTML    = navHtml
+panelsEl.innerHTML = panelsHtml
 
+
+/* ── Build filter dropdowns dynamically ── */
+var regionEl = document.getElementById('continentFilter')
+var deviceEl = document.getElementById('deviceFilter')
+
+var rOpts = '<option value="">All regions</option>'
+for (var i=0; i<CONFIG.regions.length; i++)
+  rOpts += '<option value="'+esc2(CONFIG.regions[i].value)+'">'+esc2(CONFIG.regions[i].label)+'</option>'
+regionEl.innerHTML = rOpts
+
+var dOpts = '<option value="">All devices</option>'
+for (var i=0; i<CONFIG.devices.length; i++)
+  dOpts += '<option value="'+esc2(CONFIG.devices[i].value)+'">'+esc2(CONFIG.devices[i].label)+'</option>'
+deviceEl.innerHTML = dOpts
+
+
+/* ── Tabs ── */
+function bindTabs(){
+  var tabBtns = document.querySelectorAll('.kit-tab')
+  for (var i=0; i<tabBtns.length; i++){
+    tabBtns[i].onclick = function(){
+      var allBtns   = document.querySelectorAll('.kit-tab')
+      var allPanels = document.querySelectorAll('.kit-panel')
+      for (var j=0; j<allBtns.length; j++){allBtns[j].classList.remove('active');allBtns[j].setAttribute('aria-selected','false')}
+      for (var j=0; j<allPanels.length; j++) allPanels[j].classList.remove('active')
+      this.classList.add('active'); this.setAttribute('aria-selected','true')
+      document.getElementById('tab-'+this.dataset.tab).classList.add('active')
+    }
+  }
+}
+bindTabs()
+;(function(){
+  var allBtns   = document.querySelectorAll('.kit-tab')
+  var allPanels = document.querySelectorAll('.kit-panel')
+  for (var j=0; j<allBtns.length; j++){allBtns[j].classList.remove('active');allBtns[j].setAttribute('aria-selected','false')}
+  for (var j=0; j<allPanels.length; j++) allPanels[j].classList.remove('active')
+  var lbBtn   = document.querySelector('.kit-tab[data-tab="leaderboard"]')
+  var lbPanel = document.getElementById('tab-leaderboard')
+  if (lbBtn)   { lbBtn.classList.add('active');   lbBtn.setAttribute('aria-selected','true') }
+  if (lbPanel)   lbPanel.classList.add('active')
+})()
+
+
+/* ── Search + filters ── */
 var searchEl = document.getElementById('playerSearch')
-var continentEl = document.getElementById('continentFilter')
 
-searchEl.oninput = function() { rerender() }
-continentEl.onchange = function() { rerender() }
-
-function rerender() {
-  var q = searchEl.value.trim().toLowerCase()
-  var region = continentEl.value
-
-  var kits = Object.keys(loadedData)
-  for (var i = 0; i < kits.length; i++) {
-    var kit = kits[i]
-    var players = loadedData[kit]
-
-    var filtered = []
-    for (var j = 0; j < players.length; j++) {
-      var p = players[j]
-      var pc = p.continent || 'NA'
-      if (pc == 'Unknown') pc = 'NA'
-
-      if (q && p.name.toLowerCase().indexOf(q) === -1) continue
-      if (region && pc !== region) continue
-      filtered.push(p)
-    }
-
-    fillKit('tiers-' + kit, filtered)
-  }
-}
-
-function makeTierBlock(tierKey, label, sub, cssClass, players) {
-  var inTier = []
-  for (var i = 0; i < players.length; i++) {
-    var t = players[i].tier.trim().toUpperCase().replace(' ', '')
-    if (t == tierKey) inTier.push(players[i])
-  }
-
-  var n = inTier.length
-  // cssClass is e.g. 'ht1', 'lt2' — matches the .tier-row.ht1 selectors in CSS
-  var html = '<div class="tier-row ' + cssClass + '">'
-  html += '<div class="tier-header">'
-  html += '<div class="tier-icon">' + tierKey + '</div>'
-  html += '<div class="tier-labels">'
-  html += '<div class="tier-rank-name">' + label + '</div>'
-  html += '<div class="tier-rank-sub">' + sub + '</div>'
-  html += '</div>'
-  html += '<div class="tier-sep"></div>'
-  html += '<div class="tier-playercount">' + n + (n == 1 ? ' player' : ' players') + '</div>'
-  html += '</div>'
-  html += '<div class="player-list">'
-
-  if (n == 0) {
-    html += '<div class="no-players">No players in this tier</div>'
-  } else {
-    for (var i = 0; i < inTier.length; i++) {
-      var p = inTier[i]
-      var tmpEl = document.createElement('div')
-
-      tmpEl.appendChild(document.createTextNode(p.name))
-      var safeName = tmpEl.innerHTML
-      tmpEl.innerHTML = ''
-      tmpEl.appendChild(document.createTextNode(p.continent || 'NA'))
-      var safeContinent = tmpEl.innerHTML
-
-      html += '<div class="player-entry" style="animation-delay:' + (i * 0.04).toFixed(2) + 's">'
-      html += '<span class="player-ign">' + safeName + '</span>'
-      html += '<span class="region-tag" data-continent="' + safeContinent + '">' + safeContinent + '</span>'
-      html += '</div>'
-    }
-  }
-
-  return html + '</div></div>'
-}
-
-function fillKit(elId, players) {
-  var el = document.getElementById(elId)
-  if (!el) return
-
-  var out = ''
-  out += makeTierBlock('HT1', 'High Tier 1', 'The Absolute Best',   'ht1', players)
-  out += makeTierBlock('LT1', 'Low Tier 1',  'Near Pinnacle',       'lt1', players)
-  out += makeTierBlock('HT2', 'High Tier 2', 'Elite Competitors',   'ht2', players)
-  out += makeTierBlock('LT2', 'Low Tier 2',  'Strong Players',      'lt2', players)
-  out += makeTierBlock('HT3', 'High Tier 3', 'Above Average',       'ht3', players)
-  out += makeTierBlock('LT3', 'Low Tier 3',  'Solid Performers',    'lt3', players)
-  out += makeTierBlock('HT4', 'High Tier 4', 'Average',             'ht4', players)
-  out += makeTierBlock('LT4', 'Low Tier 4',  'Below Average',       'lt4', players)
-  out += makeTierBlock('HT5', 'High Tier 5', 'Developing',          'ht5', players)
-  out += makeTierBlock('LT5', 'Low Tier 5',  'Entry Level',         'lt5', players)
-
-  el.innerHTML = out
-}
-
-fetch('players.json').then(function(r) {
-  if (!r.ok) throw 'status ' + r.status
-  return r.json()
-}).then(function(data) {
-  var kits = ['overall','emerald','dragonhide','dragonhide_kb','modern_mace','wand','spear','manhunt']
-  for (var i = 0; i < kits.length; i++) {
-    loadedData[kits[i]] = data[kits[i]] || []
-  }
-
-  fillKit('tiers-overall',      loadedData.overall)
-  fillKit('tiers-emerald',      loadedData.emerald)
-  fillKit('tiers-dragonhide',   loadedData.dragonhide)
-  fillKit('tiers-dragonhide_kb',loadedData.dragonhide_kb)
-  fillKit('tiers-modern_mace',  loadedData.modern_mace)
-  fillKit('tiers-wand',         loadedData.wand)
-  fillKit('tiers-spear',        loadedData.spear)
-  fillKit('tiers-manhunt',      loadedData.manhunt)
-}).catch(function(err) {
-  console.log('players.json didnt load:', err)
-  var errHtml = '<div style="text-align:center;padding:40px;color:rgba(255,100,100,0.7);letter-spacing:0.2em;font-size:0.85rem;text-transform:uppercase;">Could not load player data — make sure players.json is in the same folder.</div>'
-  var tierEls = document.querySelectorAll('[id^="tiers-"]')
-  for (var i = 0; i < tierEls.length; i++) tierEls[i].innerHTML = errHtml
+searchEl.addEventListener('keydown', function(e){
+  if (e.key !== 'Enter') return
+  var q = this.value.trim(); if (!q) return
+  var found = null, all = getAllPlayers(), ql = q.toLowerCase()
+  for (var i=0; i<all.length; i++) { if (all[i].toLowerCase()===ql){ found=all[i]; break } }
+  if (!found) { for (var i=0; i<all.length; i++) { if (all[i].toLowerCase().indexOf(ql)!==-1){ found=all[i]; break } } }
+  if (found) openProfile(found)
 })
-</script>
+searchEl.oninput  = rerender
+regionEl.onchange = rerender
+deviceEl.onchange = rerender
 
-</body>
-</html>
+function getAllPlayers(){
+  var seen={}, list=[]
+  for (var ki=0; ki<KIT_KEYS.length; ki++){
+    var arr = loadedData[KIT_KEYS[ki]] || []
+    for (var pi=0; pi<arr.length; pi++){
+      var n = arr[pi].name
+      if (!seen[n.toLowerCase()]){ seen[n.toLowerCase()]=1; list.push(n) }
+    }
+  }
+  return list
+}
+
+function matchesFilter(p){
+  var q = searchEl.value.trim().toLowerCase()
+  if (q && p.name.toLowerCase().indexOf(q)===-1) return false
+  var isWaitlist = p.isWL || normTier(p.tier)==='WAITLIST'
+  if (isWaitlist) return true
+  var reg = regionEl.value, dev = deviceEl.value
+  var pc  = p.continent||'NA'; if (pc==='Unknown') pc='NA'
+  if (reg && pc!==reg) return false
+  if (dev && (p.device||'Unknown')!==dev) return false
+  return true
+}
+
+
+/* ── Helpers ── */
+function esc(s){ var d=document.createElement('div'); d.appendChild(document.createTextNode(String(s))); return d.innerHTML }
+function esc2(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+function hexToRgba(hex, alpha){
+  /* Accepts #rrggbb or #rgb; falls back gracefully for rgba() strings */
+  hex = (hex||'').trim()
+  var m = hex.match(/^#([0-9a-f]{3,6})$/i)
+  if (!m) return hex
+  var h = m[1]
+  if (h.length===3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2]
+  var r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16)
+  return 'rgba('+r+','+g+','+b+','+alpha+')'
+}
+
+function normTier(raw){ return (raw||'').trim().toUpperCase().replace(/\s+/g,'') }
+function stripPrefix(t){ return t.replace(/^[RM]/,'') }
+function tierPts(t){ if (!t||t==='WAITLIST') return 0; return PTS_BASE[stripPrefix(t)]||0 }
+function tierType(t){
+  if (!t) return 'normal'; if (t==='WAITLIST') return 'waitlist'
+  if (t.charAt(0)==='R') return 'retired'; if (t.charAt(0)==='M') return 'mobile'; return 'normal'
+}
+function tierNum(t){ var b=stripPrefix(t), m=b.match(/(\d)$/); return m?parseInt(m[1]):6 }
+function tierCardClass(t){
+  var tp=tierType(t)
+  if (tp==='waitlist') return 'kc-waitlist'; if (tp==='retired') return 'kc-retired'; if (tp==='mobile') return 'kc-mobile'
+  return 'kc-t'+tierNum(t)
+}
+
+function formatTierLabel(t){
+  if (!t||t==='WAITLIST') return 'Waitlist'
+  var tp=tierType(t), base=stripPrefix(t)
+  if (tp==='mobile')  return 'Mobile '+base
+  if (tp==='retired') return 'Retired '+base
+  return base
+}
+
+function regionTag(v){
+  return '<span class="tag-region" data-v="'+esc2(v)+'">'+esc(v)+'</span>'
+}
+function deviceTag(v){
+  return '<span class="tag-device" data-v="'+esc2(v)+'">'+esc(v)+'</span>'
+}
+function tierTag(t){
+  var tp=tierType(t), cls=tp==='retired'?'tag-retired':tp==='mobile'?'tag-mobile':''
+  return '<span class="tag-tier '+cls+'">'+esc(formatTierLabel(t))+'</span>'
+}
+function chipClass(t){
+  var tp=tierType(t)
+  if (tp==='waitlist') return 'chip-waitlist'
+  if (tp==='retired')  return 'chip-retired'
+  return ''
+}
+function safeOnclick(name){ return "openProfile('"+name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+"');" }
+
+
+var playerRegistry={}, loadedData={}, loadedLeaderboard=[]
+
+function resolvePlayer(name,tier,kitKey){
+  var key = name.trim().toLowerCase(), reg = playerRegistry[key]
+  return {
+    name:      name.trim(), tier: tier, kitKey: kitKey||'',
+    continent: reg ? (reg.continent||'NA') : 'NA',
+    device:    reg ? (reg.device||'Unknown') : 'Unknown'
+  }
+}
+
+function expandKit(kitData, kitKey){
+  if (!kitData) return []
+  if (Array.isArray(kitData)){
+    var out=[]
+    for (var i=0; i<kitData.length; i++){
+      var e=kitData[i], p=resolvePlayer(e.name,e.tier,kitKey)
+      if (e.continent) p.continent=e.continent
+      if (e.device)    p.device=e.device
+      out.push(p)
+    }
+    return out
+  }
+  var out=[], keys=Object.keys(kitData)
+  for (var ti=0; ti<keys.length; ti++){
+    var tier=keys[ti], names=kitData[tier]
+    if (!Array.isArray(names)) continue
+    for (var ni=0; ni<names.length; ni++) out.push(resolvePlayer(names[ni],tier,kitKey))
+  }
+  return out
+}
+
+function buildElo(){
+  var map={}
+  for (var ki=0; ki<KIT_KEYS.length; ki++){
+    var arr = loadedData[KIT_KEYS[ki]]||[]
+    for (var pi=0; pi<arr.length; pi++){
+      var p=arr[pi], t=normTier(p.tier), pts=tierPts(t)
+      if (!pts) continue
+      if (!map[p.name]) map[p.name]={name:p.name,continent:p.continent||'NA',device:p.device||'Unknown',elo:0}
+      map[p.name].elo+=pts
+    }
+  }
+  var list=[], keys=Object.keys(map)
+  for (var i=0; i<keys.length; i++) list.push(map[keys[i]])
+  list.sort(function(a,b){ return b.elo-a.elo })
+  return list
+}
+
+function buildWaitlistOnly(){
+  var eloNames={}, eloList=buildElo()
+  for (var i=0; i<eloList.length; i++) eloNames[eloList[i].name.toLowerCase()]=true
+  var seen={}, list=[]
+  for (var ki=0; ki<KIT_KEYS.length; ki++){
+    var arr = loadedData[KIT_KEYS[ki]]||[]
+    for (var pi=0; pi<arr.length; pi++){
+      var p=arr[pi], t=normTier(p.tier), k=p.name.toLowerCase()
+      if (t==='WAITLIST'&&!eloNames[k]&&!seen[k]){ seen[k]=true; list.push(p) }
+    }
+  }
+  return list
+}
+
+function buildAllPlayers(){
+  var ranked=buildElo(), wl=buildWaitlistOnly(), all=[]
+  for (var i=0; i<ranked.length; i++) all.push({name:ranked[i].name,continent:ranked[i].continent,device:ranked[i].device,elo:ranked[i].elo,isWL:false,rank:i+1})
+  for (var i=0; i<wl.length; i++)     all.push({name:wl[i].name,continent:wl[i].continent,device:wl[i].device,elo:0,isWL:true,rank:ranked.length+i+1})
+  return all
+}
+
+function renderLeaderboard(){
+  var el=document.getElementById('lb-leaderboard'); if (!el) return
+  var list=loadedLeaderboard, q=searchEl.value.trim().toLowerCase(), filtered=[]
+  for (var i=0; i<list.length; i++){
+    var p=list[i]
+    if (q && p.name.toLowerCase().indexOf(q)===-1) continue
+    var reg=regionEl.value, dev=deviceEl.value
+    var pc=p.continent||'NA'; if (pc==='Unknown') pc='NA'
+    if (reg && pc!==reg) continue
+    if (dev && (p.device||'Unknown')!==dev) continue
+    filtered.push(p)
+  }
+  if (!filtered.length){ el.innerHTML='<div class="lb-empty">No players found</div>'; return }
+  var html='<div class="lb-wrap">'
+  for (var i=0; i<filtered.length; i++){
+    var p=filtered[i], r=p.rank, cls=r===1?'r1':r===2?'r2':r===3?'r3':''
+    var reg=p.continent||'NA'; if (reg==='Unknown') reg='NA'
+    html+='<div class="lb-row" style="animation-delay:'+(i*0.02).toFixed(3)+'s" onclick="'+safeOnclick(p.name)+'">'
+    html+='<div class="lb-rank '+cls+'">#'+r+'</div>'
+    html+='<div class="lb-name">'+esc(p.name)+'</div>'
+    html+='<div class="lb-tags">'+regionTag(reg)+deviceTag(p.device||'Unknown')+'</div>'
+    html+='<div class="lb-elo-wrap"></div>'
+    html+='</div>'
+  }
+  el.innerHTML=html+'</div>'
+}
+
+function renderOverall(){
+  var el=document.getElementById('lb-overall'); if (!el) return
+  var all=buildAllPlayers(), filtered=all.filter(matchesFilter)
+  if (!filtered.length){ el.innerHTML='<div class="lb-empty">No players found</div>'; return }
+  var html='<div class="lb-wrap">'
+  for (var i=0; i<filtered.length; i++){
+    var p=filtered[i], r=p.rank, cls=r===1?'r1':r===2?'r2':r===3?'r3':''
+    var reg=p.continent||'NA'; if (reg==='Unknown') reg='NA'
+    var rowCls=p.isWL?' lb-waitlist':''
+    html+='<div class="lb-row'+rowCls+'" style="animation-delay:'+(i*0.02).toFixed(3)+'s" onclick="'+safeOnclick(p.name)+'">'
+    html+='<div class="lb-rank '+cls+'">#'+r+'</div>'
+    html+='<div class="lb-name">'+esc(p.name)+'</div>'
+    if (p.isWL){
+      html+='<div class="lb-tags"><span class="tag-tier" style="opacity:0.4">Waitlist</span></div>'
+      html+='<div class="lb-elo-wrap"><div class="lb-elo" style="font-size:0.8rem;color:rgba(255,255,255,0.2)">0</div><div class="lb-elo-label">ELO</div></div>'
+    } else {
+      html+='<div class="lb-tags">'+regionTag(reg)+deviceTag(p.device||'Unknown')+'</div>'
+      html+='<div class="lb-elo-wrap"><div class="lb-elo">'+p.elo+'</div><div class="lb-elo-label">ELO</div></div>'
+    }
+    html+='</div>'
+  }
+  el.innerHTML=html+'</div>'
+}
+
+function renderKit(kitKey){
+  var el=document.getElementById('tiers-'+kitKey); if (!el) return
+  var all=loadedData[kitKey]||[], filtered=all.filter(matchesFilter)
+  var byTier={}
+  for (var i=0; i<filtered.length; i++){
+    var t=normTier(filtered[i].tier)
+    if (!byTier[t]) byTier[t]=[]
+    byTier[t].push(filtered[i])
+  }
+  var tierOrder=['HT1','LT1','HT2','LT2','HT3','LT3','HT4','LT4','HT5','LT5']
+  var html=''
+
+  for (var gi=0; gi<CONFIG.tierGroups.length; gi++){
+    var grp=CONFIG.tierGroups[gi], num=grp.num, subTiers=[]
+    for (var oi=0; oi<tierOrder.length; oi++){
+      var base=tierOrder[oi]
+      if (tierNum(base)!==num) continue
+      var variants=[base,'M'+base,'R'+base]
+      for (var vi=0; vi<variants.length; vi++){
+        var vk=variants[vi]
+        if (byTier[vk]&&byTier[vk].length) subTiers.push(vk)
+      }
+    }
+    if (!subTiers.length) continue
+    html+='<div class="tier-section">'
+    for (var si=0; si<subTiers.length; si++){
+      var tk=subTiers[si], players=byTier[tk], tp=tierType(tk)
+      var subLabel=formatTierLabel(tk)
+      var stnCls=tp==='retired'?'stn-retired':tp==='mobile'?'stn-mobile':''
+      html+='<div class="sub-tier-block">'
+      html+='<span class="sub-tier-name '+stnCls+'">'+esc(subLabel)+'</span>'
+      html+='<div class="tier-player-list">'
+      for (var pi=0; pi<players.length; pi++){
+        var p=players[pi], isRetired=(tp==='retired')
+        var reg=p.continent&&p.continent!=='Unknown'?p.continent:'NA'
+        html+='<div class="tier-player-entry'+(isRetired?' entry-retired':'')+'" onclick="'+safeOnclick(p.name)+'">'
+        html+='<span class="entry-name">'+esc(p.name)+'</span>'
+        html+=regionTag(reg)
+        if (p.device) html+=deviceTag(p.device)
+        html+='</div>'
+      }
+      html+='</div></div>'
+    }
+    html+='</div>'
+  }
+
+  if (byTier['WAITLIST']&&byTier['WAITLIST'].length){
+    html+='<div class="tier-section">'
+    html+='<div class="tier-section-header header-waitlist"><span class="tsn">Waitlist</span></div>'
+    html+='<div class="tier-player-list">'
+    for (var pi=0; pi<byTier['WAITLIST'].length; pi++){
+      var p=byTier['WAITLIST'][pi]
+      html+='<div class="tier-player-entry" onclick="'+safeOnclick(p.name)+'">'
+      html+='<span class="entry-name" style="color:rgba(255,255,255,0.4)">'+esc(p.name)+'</span>'
+      html+='</div>'
+    }
+    html+='</div></div>'
+  }
+
+  if (!html) html='<div class="tier-empty">No players</div>'
+  el.innerHTML=html
+}
+
+function openProfile(name){
+  var key=name.trim().toLowerCase(), regData=playerRegistry[key]
+  var allPlayers=buildAllPlayers(), totalElo=0, overallRank=null
+  for (var i=0; i<allPlayers.length; i++){
+    if (allPlayers[i].name.toLowerCase()===key){ totalElo=allPlayers[i].elo; overallRank=allPlayers[i].rank; break }
+  }
+
+  var kitEntries=[], onlyWL=true, hasRetired=false, hasMobile=false
+  /* Track the first non-waitlist kit for accent color */
+  var accentKitKey=null
+  for (var ki=0; ki<KIT_KEYS.length; ki++){
+    var arr=loadedData[KIT_KEYS[ki]]||[]
+    for (var pi=0; pi<arr.length; pi++){
+      if (arr[pi].name.toLowerCase()===key){
+        var t=normTier(arr[pi].tier)
+        kitEntries.push({kit:KIT_KEYS[ki], tier:t})
+        if (t!=='WAITLIST'){ onlyWL=false; if (!accentKitKey) accentKitKey=KIT_KEYS[ki] }
+        if (tierType(t)==='retired') hasRetired=true
+        if (tierType(t)==='mobile')  hasMobile=true
+      }
+    }
+  }
+
+  /* Accent bar: use kit color if available, else fall back to retired/mobile/waitlist */
+  var accentEl=document.getElementById('prof-accent')
+  accentEl.className='profile-accent'
+  if (onlyWL){
+    accentEl.classList.add('acc-waitlist')
+    accentEl.style.background=''
+  } else if (accentKitKey && KIT_COLORS[accentKitKey]) {
+    var c=KIT_COLORS[accentKitKey]
+    accentEl.style.background='linear-gradient(90deg,'+c+','+hexToRgba(c,0.5)+')'
+  } else {
+    accentEl.style.background=''
+    if (hasRetired) accentEl.classList.add('acc-retired')
+    else if (hasMobile) accentEl.classList.add('acc-mobile')
+  }
+
+  var rp=document.getElementById('prof-rank-pill')
+  if (overallRank){ document.getElementById('prof-rank-num').textContent='#'+overallRank; rp.style.display='' }
+  else rp.style.display='none'
+
+  document.getElementById('prof-name').textContent=name
+
+  var metaEl=document.getElementById('prof-meta'), metaHtml=''
+  if (regData&&!onlyWL) metaHtml+=regionTag(regData.continent||'NA')+deviceTag(regData.device||'Unknown')
+  metaEl.innerHTML=metaHtml; metaEl.style.display=metaHtml?'':'none'
+
+  var eb=document.getElementById('prof-elo-block')
+  if (!onlyWL&&totalElo>0){ document.getElementById('prof-elo-num').textContent=totalElo; eb.style.display='' }
+  else eb.style.display='none'
+
+  document.getElementById('prof-pending').style.display=onlyWL?'':'none'
+
+  var ks=document.getElementById('prof-kits-section'), kg=document.getElementById('prof-kits-grid')
+  if (kitEntries.length){
+    var html=''
+    for (var i=0; i<kitEntries.length; i++){
+      var ke=kitEntries[i], imgSrc=KIT_IMAGES[ke.kit]||''
+      var cc=onlyWL?'kc-waitlist':tierCardClass(ke.tier)
+      var displayTier=onlyWL?'Waitlist':formatTierLabel(ke.tier)
+      var kitColor=KIT_COLORS[ke.kit]||'#ffd700'
+      html+='<div class="kit-card '+cc+'" data-kit="'+esc2(ke.kit)+'">'
+      html+='<img class="kit-card-img" src="'+esc2(imgSrc)+'" alt="'+esc(KIT_LABELS[ke.kit]||ke.kit)+'" onerror="this.style.opacity=\'0.15\'">'
+      html+='<div class="kit-card-tier" style="'+(onlyWL||tierType(ke.tier)==='retired'?'':'color:'+kitColor)+'">'+esc(displayTier)+'</div>'
+      html+='<div class="kit-card-name">'+esc(KIT_LABELS[ke.kit]||ke.kit)+'</div>'
+      html+='</div>'
+    }
+    kg.innerHTML=html; ks.style.display=''
+  } else {
+    kg.innerHTML='<div class="profile-no-kits">No kit rankings yet</div>'; ks.style.display=''
+  }
+
+  document.getElementById('profile-modal-bg').classList.add('open')
+}
+
+function rerender(){
+  renderLeaderboard()
+  renderOverall()
+  for (var i=0; i<KIT_KEYS.length; i++) renderKit(KIT_KEYS[i])
+}
+
+/* ── Modals ── */
+document.getElementById('info-btn').onclick        = function(){ document.getElementById('info-modal-bg').classList.add('open') }
+document.getElementById('info-modal-close').onclick = function(){ document.getElementById('info-modal-bg').classList.remove('open') }
+document.getElementById('info-modal-bg').onclick    = function(e){ if (e.target===this) this.classList.remove('open') }
+document.getElementById('profile-modal-close').onclick = function(){ document.getElementById('profile-modal-bg').classList.remove('open') }
+document.getElementById('profile-modal-bg').onclick    = function(e){ if (e.target===this) this.classList.remove('open') }
+
+/* ── Fetch players.json ── */
+fetch('players.json')
+  .then(function(r){ if (!r.ok) throw 'status '+r.status; return r.json() })
+  .then(function(data){
+    var players=data.players||[]
+    for (var i=0; i<players.length; i++){
+      var p=players[i]; if (p&&p.name) playerRegistry[p.name.trim().toLowerCase()]=p
+    }
+    for (var i=0; i<KIT_KEYS.length; i++) loadedData[KIT_KEYS[i]]=expandKit(data[KIT_KEYS[i]],KIT_KEYS[i])
+
+    var lb=data.leaderboard||[]
+    loadedLeaderboard=[]
+    for (var i=0; i<lb.length; i++){
+      var entry=lb[i]; if (!entry) continue
+      var name=typeof entry==='string'?entry.trim():(entry.name||'').trim(); if (!name) continue
+      var key=name.toLowerCase(), reg=playerRegistry[key]
+      loadedLeaderboard.push({
+        name:      name,
+        rank:      i+1,
+        continent: (typeof entry==='object'&&entry.continent)||(reg?reg.continent||'NA':'NA'),
+        device:    (typeof entry==='object'&&entry.device)||(reg?reg.device||'Unknown':'Unknown')
+      })
+    }
+    rerender()
+  })
+  .catch(function(err){
+    console.log('players.json failed:',err)
+    var msg='<div style="text-align:center;padding:52px 20px;color:rgba(255,100,100,0.5);letter-spacing:0.12em;font-size:0.8rem;text-transform:uppercase;">Could not load player data — make sure players.json is in the same folder.</div>'
+    var els=document.querySelectorAll('[id^="tiers-"], #lb-overall, #lb-leaderboard')
+    for (var i=0; i<els.length; i++) els[i].innerHTML=msg
+  })
+</script>
 </body>
 </html>
